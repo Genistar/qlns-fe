@@ -1,0 +1,59 @@
+
+        .addButton{
+            
+            .button{
+                height: 32px;
+                border-radius: 0.3rem;
+                background-color:#e3ae00;
+                color: #fff;
+                margin-bottom: 10px;
+            }
+            .btnEx{
+                justify-content: center;
+                align-items: center;
+                padding: 7px 27px;
+                gap: 10px;
+                position: absolute;
+                width: 133px;
+                height: 32px;
+                left: 0px;
+                top: 0px;
+                border: 1px solid #FF993C;
+                border-radius: 8px;
+                .textEx{
+                    margin-bottom: 10px;
+                    width: 100px;
+                    font-family: 'Montserrat';
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 12px;
+                    display: flex;
+                    align-items: center;
+                    color: #FF993C;
+                    flex: none;
+                    order: 0;
+                    flex-grow: 0;
+                }
+            }
+        }
+.items{
+    width: 200px;
+    .title_item{
+        float: left;
+        font-weight: 500;
+        font-size: 16px
+    };
+    .selectItem{
+        border-radius: 10rem;
+    }
+    
+}
+// .blue{
+//     color: #71e0ff !important;
+// }
+.blue{
+    background-color: #c6fffc;
+}
+.light{
+    background-color: #fff;
+}

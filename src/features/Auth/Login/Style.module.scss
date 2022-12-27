@@ -1,0 +1,27 @@
+.container{
+    position: absolute;
+    top:28%;
+    left:37%;
+    width: 24%;
+    height: 45%;
+    border-radius: 12px;
+    background-color: aquamarine;
+    box-shadow: 4px 4px 45px rgba(109, 46, 0, 0.35);
+    border: none;
+    .input{
+        width: 99%;
+        .inputStyle{
+            height: 44px;
+            width: 100%;
+            border-radius: 8px;
+
+        }
+    }
+    .btnLogin{
+        width: 40%;
+        height: 40px;
+        left: 29%;
+        border-radius: 8px;
+        border: none;
+    }
+}

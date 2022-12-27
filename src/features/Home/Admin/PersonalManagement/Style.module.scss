@@ -1,0 +1,160 @@
+.container{
+    position: absolute;
+    top:109px;
+    left:214px;
+    width: 85%;
+    box-sizing: border-box;
+    .title{
+        position: absolute;
+        top:0px
+    };
+    .warp{
+        position: absolute;
+        top:50px;
+        .input_search{
+            width: 100%;
+            margin-left: 150px;
+            margin-top: -2px;
+            .title_item{
+                float: left;
+                font-weight: 500;
+                font-size: 16px
+            };
+        }
+        .addButton{
+            margin-top: 25px;
+            margin-left: 20px;
+            .button{
+                height: 42px;
+                border-radius: 0.3rem;
+                background-color:#e3ae00;
+                color: #fff;
+            }
+            .btnEx{
+                justify-content: center;
+                align-items: center;
+                padding: 11px 24px;
+                gap: 10px;
+                position: absolute;
+                width: 181px;
+                height: 44px;
+                left: 0px;
+                top: 0px;
+                border: 1px solid #FF993C;
+                border-radius: 8px;
+                .textEx{
+                    width: 133px;
+                    height: 26px;
+                    font-family: 'Montserrat';
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 18px;
+                    line-height: 26px;
+                    margin-top: -3px;
+                    margin-left: 8px;
+                    display: flex;
+                    align-items: center;
+                    color: #FF993C;
+                    flex: none;
+                    order: 0;
+                    flex-grow: 0;
+                }
+            }
+        }
+        
+    }
+    .table{
+        position: absolute;
+        top:165px;
+        width: 100%;
+        left: 0px;
+    }
+}
+.items{
+    width: 200px;
+    .title_item{
+        float: left;
+        font-weight: 500;
+        font-size: 16px
+    };
+    .selectItem{
+        border-radius: 10rem;
+    }
+    
+}
+.borderBlue{
+    border: 2.5px solid #71e0ff !important;
+}
+.blue{
+    color: #71e0ff !important;
+}
+.dark{
+    background-color: #fff0d2;
+}
+.blue{
+    background-color: #c6fffc;
+}
+.light{
+    background-color: #fff;
+}
+.card_container{
+    position: absolute;
+    width: 80%;
+    top: 101px;
+    left: 234px;
+    border-radius: 12px;
+    height: 75%;
+    box-sizing: border-box;
+    .card_title{
+        position: absolute;
+        top: 10px;
+        left: 14px;
+
+    } 
+    .card_form{
+        position: absolute;
+        width: 100%;
+        top: 34px;
+        left: 62px;
+        .mr{
+            margin-right: 10%;
+            .labelFormInput{
+                margin-top: 6px;
+            }
+            .cardFormInput{
+                position: absolute;
+                top: -10px;
+                height: 44px;
+                width: 286px;
+                border-radius: 8px;
+            }
+        }
+        .buttonContainer{
+            position: absolute;
+            top:30%;
+            left: 82%;
+            width: 116px;
+            display: block;
+            box-sizing: border-box;
+            .btn{
+                height: 80px;
+                width: 116px;
+                border-radius: 8px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+    .button{
+        position: absolute;
+        top:90%;
+        left: 40%;
+        width: 416px;
+        box-sizing: border-box;
+        .btn{
+            height: 50px;
+            width: 116px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+    }
+}

@@ -1,0 +1,101 @@
+.modalContainer{
+    position: relative;
+    width: 634px;
+    height: 454px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    .title{
+        position: absolute;
+        width: 810px;
+        height: 30px;
+        left: 203px;
+        top: 24px;
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 24px;
+        line-height: 30px;
+        display: flex;
+        align-items: center;
+        color: #1E0D03;
+    }
+    .warpContainer{
+        position: absolute;
+        top: 71px;
+        left:56px;
+        width: 100%;
+        .input{
+            width: 100%;
+            height: 44px;
+            border-radius: 8px;
+        }
+        .btn{
+            position: absolute;
+            left: 16%;
+           .btnSort{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 11px 24px;
+            gap: 10px;
+            position: absolute;
+            width: 160px;
+            height: 48px;
+            top: 403px;
+            border: 1px solid #FF993C;
+            border-radius: 8px;
+            .btnSortText{
+                width: 34px;
+                height: 26px;
+                font-family: 'Montserrat';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 18px;
+                line-height: 26px;
+                display: flex;
+                align-items: center;
+                color: #FF993C;
+                flex: none;
+                order: 0;
+                flex-grow: 0;
+            }
+            
+        }
+        .btnUpdate{
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 11px 0px;
+            gap: 10px;
+            position: absolute;
+            width: 160px;
+            height: 48px;
+            top: 403px;
+            border: 1px solid #FF993C;
+            border-radius: 8px;
+            .btnUpdateText{
+                width: 34px;
+                height: 26px;
+                font-family: 'Montserrat';
+                font-style: normal;
+                font-weight: 700;
+                font-size: 18px;
+                line-height: 26px;
+                margin-left: -27%;
+                display: flex;
+                align-items: center;
+                color: #FF993C;
+                flex: none;
+                order: 0;
+                flex-grow: 0;
+            }
+        }  
+    }
+}
+    .tabs{
+        position: absolute;
+        top:45px;
+    }
+}
