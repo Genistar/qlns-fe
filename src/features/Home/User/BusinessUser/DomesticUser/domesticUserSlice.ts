@@ -36,11 +36,10 @@ export const getAll = createAsyncThunk('domesticsUser/getAll',
                 console.log(err)
             });
             domesticsUser = await response;
-            console.log(domesticsUser)
             if (filter) {
                 if (filter.keyword != '') {
                     const domestics = await response.filter((domestic: any) =>
-                        domestic.fkMaKhenThuong.toLowerCase().includes(filter.keyword?.toLowerCase())
+                        domestic.chuyenMon.toLowerCase().includes(filter.keyword?.toLowerCase())
                     )
                     return domestics
                 }

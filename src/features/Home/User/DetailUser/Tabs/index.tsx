@@ -34,7 +34,7 @@ const TabUser = (props: Props) => {
                 {
                     label: `Lý lịch`,
                     key: '2',
-                    children: <Detail2 disableButton={disableButton} />,
+                    children: <Detail2 disableButton={disableButton} cities={cities} />,
                 },
                 {
                     label: `Công tác đơn vị/Học vấn`,

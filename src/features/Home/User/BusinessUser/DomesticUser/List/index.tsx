@@ -17,7 +17,7 @@ const DomesticUserList = (props: Props) => {
     let role = localStorage.getItem('role');
     let cbId = localStorage.getItem('cbId');
     useEffect(() => {
-        dispatch(getAll({ keyword: '', cbId }))
+        dispatch(getAll({ keyword: keyword, cbId }))
     }, [cbId])
     console.log(domesticsUser)
     const columns = [
@@ -103,7 +103,7 @@ const DomesticUserList = (props: Props) => {
 
                 <Table
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
-                    className={styles.table}
+                    className={styles.table + ' header-table'}
                     dataSource={
                         domesticsUser
                     }

@@ -138,7 +138,7 @@ const ForeignUserList = (props: Props) => {
 
                 <Table
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
-                    className={styles.table}
+                    className={styles.table + ' header-table'}
                     dataSource={
                         foreignsUser.map(foreign => (
                             {

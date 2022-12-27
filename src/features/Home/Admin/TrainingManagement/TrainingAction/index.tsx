@@ -66,7 +66,6 @@ const TrainingAction = (props: Props) => {
             })
         } else {
             dispatch(addTraining(value)).then((res: any) => {
-                console.log(res)
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',

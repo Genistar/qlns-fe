@@ -111,6 +111,7 @@ const FamilyUserList = (props: Props) => {
                                 ...data
                             }))
                         }
+                        className={'header-table'}
                         columns={columns}
                         size='small'
                         loading={authLoading}

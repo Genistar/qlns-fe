@@ -21,9 +21,9 @@ const CultivateUserList: React.FC = (props: Props) => {
     let cbId = localStorage.getItem('cbId');
     let role = localStorage.getItem('role');
     useEffect(() => {
-        dispatch(getAll({ keyword: '', cbId, cultivateOption: cultivateDi }))
+        dispatch(getAll({ keyword: keyword, cbId, cultivateOption: cultivateDi }))
         dispatch(cultivationFormD())
-    }, [cbId]);
+    }, [cbId, keyword, cultivateDi]);
     const cultivateOption = cultivationForm.map((cul: any, index) => (
         <Select.Option key={index} value={cul.id}>{cul.tenHinhThuc}</Select.Option>
     ))
@@ -151,7 +151,7 @@ const CultivateUserList: React.FC = (props: Props) => {
 
                 <Table
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
-                    className={styles.table}
+                    className={styles.table + ' header-table'}
                     dataSource={
                         cultivatesUser.map(cultivate => ({
                             tenHinhThucBD: cultivate.DM_Hinh_Thuc_BD?.tenHinhThuc,

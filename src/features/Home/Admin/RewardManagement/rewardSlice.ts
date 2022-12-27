@@ -45,7 +45,7 @@ export const getAll = createAsyncThunk('rewards/getAll',
                 }
                 if (filter.keyword != '') {
                     const rewards = await response.filter((reward: any) =>
-                        reward.fkMaKhenThuong.toLowerCase().includes(filter.keyword?.toLowerCase())
+                        reward.DM_khen_thuong?.tenKhenThuong.toLowerCase().includes(filter.keyword?.toLowerCase())
                     )
                     return rewards
                 }

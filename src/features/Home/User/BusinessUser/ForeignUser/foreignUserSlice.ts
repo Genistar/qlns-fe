@@ -36,11 +36,10 @@ export const getAll = createAsyncThunk('foreignsUser/getAll',
                 console.log(err)
             });
             foreignsUser = await response;
-            console.log(foreignsUser)
             if (filter) {
                 if (filter.keyword != '') {
                     const foreigns = await response.filter((foreign: any) =>
-                        foreign.fkMaKhenThuong.toLowerCase().includes(filter.keyword?.toLowerCase())
+                        foreign.quocGia.toLowerCase().includes(filter.keyword?.toLowerCase())
                     )
                     return foreigns
                 }

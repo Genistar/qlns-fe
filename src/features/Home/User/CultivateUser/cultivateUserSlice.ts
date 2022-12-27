@@ -36,14 +36,13 @@ export const getAll = createAsyncThunk('cultivatesUser/getAll',
                 console.log(err)
             });
             cultivatesUser = await response;
-            console.log(cultivatesUser)
             if (filter) {
                 if (filter.cultivateOption != null) {
                     cultivatesUser.filter((data: any) => data.fkMaHinhThucBD == filter.cultivateOption)
                 }
                 if (filter.keyword != '') {
                     const cultivates = await response.filter((cultivate: any) =>
-                        cultivate.fkMaKhenThuong.toLowerCase().includes(filter.keyword?.toLowerCase())
+                        cultivate.DM_Hinh_Thuc_BD.tenHinhThuc.toLowerCase().includes(filter.keyword?.toLowerCase())
                     )
                     return cultivates
                 }

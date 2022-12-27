@@ -81,7 +81,7 @@ const Detail1 = (props: Props) => {
                     className={styles.items}
                     name='ngay_sinh'
                 >
-                    <DatePicker className={styles.input} disabled={disableButton} />
+                    <DatePicker className={styles.input} disabled={disableButton} style={{ width: '100%' }} />
                 </Form.Item>
                 <Form.Item
                     label={<Typography.Text>Email</Typography.Text>}

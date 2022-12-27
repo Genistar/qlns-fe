@@ -11,7 +11,7 @@ import { isNameOff } from '../../Admin/TrainingManagement/TrainingList';
 import ModalPrintPDF from './Modal';
 import { getBase64 } from '../../../../utils/getBase64';
 import TabUser from './Tabs';
-import { locationUserSelector } from '../../../../slices/locationSlice';
+import { getAllCities, locationUserSelector } from '../../../../slices/locationSlice';
 
 type Props = {}
 
@@ -39,7 +39,13 @@ const DetailUser: React.FC = (props: Props) => {
             ngay_sinh: moment(user?.ngay_sinh),
             ngay_cap: moment(user?.ngay_cap),
             ngay_vao_truong: moment(user?.ngay_vao_truong),
+            ngay_vao_dang_chinh_thuc: moment(user?.ngay_vao_dang_chinh_thuc, 'DD/MM/YYYY'),
+            ngay_nhap_ngu: moment(user?.ngay_nhap_ngu, 'DD/MM/YYYY'),
+            ngay_xuat_ngu: moment(user?.ngay_xuat_ngu, 'DD/MM/YYYY'),
+            ngay_vao_dang: moment(user?.ngay_vao_dang, 'DD/MM/YYYY'),
+            ngay_vao_doan: moment(user?.ngay_vao_doan, 'DD/MM/YYYY'),
             phai: user?.phai === 1 ? 'Nam' : 'Nữ',
+            noi_cap: user?.noi_cap
         })
     }, [user])
     const formData = new FormData()
@@ -47,6 +53,7 @@ const DetailUser: React.FC = (props: Props) => {
     const onFinish = (value: any) => {
         if (id) {
             dispatch(updatePersonal({
+                ...value,
                 id: id,
                 ho: user?.ho,
                 ten: user?.ten,
@@ -55,12 +62,17 @@ const DetailUser: React.FC = (props: Props) => {
                 tinh_tp: cities.find((data: any) => data.id === value.tinh_tp_dia_chi)?.name,
                 xa_phuong: wards.find((data: any) => data.id === value.xa_phuong_dia_chi)?.name,
                 quan_huyen: districts.find((data: any) => data.id === value.quan_huyen_dia_chi)?.name,
+                ngay_nhap_ngu: moment(value.ngay_nhap_ngu).format('DD/MM/YYYY'),
+                ngay_xuat_ngu: moment(value.ngay_xuat_ngu).format('DD/MM/YYYY'),
+                ngay_vao_dang_chinh_thuc: moment(value.ngay_vao_dang_chinh_thuc).format('DD/MM/YYYY'),
+                ngay_vao_dang: moment(value.ngay_vao_dang).format('DD/MM/YYYY'),
+                ngay_vao_doan: moment(value.ngay_vao_doan).format('DD/MM/YYYY'),
                 noi_sinh: value.noi_sinh,
                 hvpt_lop: value.hvpt_lop,
                 hvpt_he: value.hvpt_he,
                 fk_ma_dan_toc: value.fk_ma_dan_toc,
                 fk_ma_ton_giao: value.fk_ma_ton_giao,
-                ...value
+
             })).then((res: any) => {
                 console.log(res)
                 if (res.payload.errCode === 0) {

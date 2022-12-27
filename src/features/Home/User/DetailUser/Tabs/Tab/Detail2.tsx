@@ -1,13 +1,26 @@
-import { Col, Input, Row, Typography, Form, DatePicker } from 'antd'
-import React from 'react'
+import { Col, Input, Row, Typography, Form, DatePicker, Select } from 'antd'
+import React, { useEffect } from 'react'
+import { getAllCities } from '../../../../../../slices/locationSlice'
+import { useAppDispatch } from '../../../../../../store/store'
 import styles from '../../../Style.module.scss'
 
 type Props = {
-    disableButton: any
+    disableButton: any,
+    cities: any
 }
 
 const Detail2 = (props: Props) => {
-    let { disableButton } = props;
+    let { disableButton, cities } = props;
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(getAllCities());
+    }, [])
+    let citiesOption = cities.map((c: any, index: number) => (
+        {
+            value: c.id,
+            label: c.name
+        }
+    ))
     return (
         <Row>
             <Col style={{ left: 0, width: 600 }}>
@@ -38,12 +51,12 @@ const Detail2 = (props: Props) => {
                             name='noi_cap'
                             style={{ width: 280 }}
                         >
-                            <Input className={styles.input} disabled={disableButton} />
+                            <Select options={citiesOption} className={styles.input} disabled={disableButton} />
                         </Form.Item>
                         <Form.Item
                             label={<Typography.Text>Ngày vào đảng</Typography.Text>}
                             className={styles.items}
-                            // name='ngay_vao_dang'
+                            name='ngay_vao_dang'
                             style={{ width: 280 }}
                         >
                             <DatePicker className={styles.input} disabled={disableButton} style={{ width: 280 }} />
@@ -51,7 +64,7 @@ const Detail2 = (props: Props) => {
                         <Form.Item
                             label={<Typography.Text>Ngày nhập ngũ</Typography.Text>}
                             className={styles.items}
-                            // name='ngay_nhap_ngu'
+                            name='ngay_nhap_ngu'
                             style={{ width: 280 }}
                         >
                             <DatePicker className={styles.input} disabled={disableButton} style={{ width: 280 }} />

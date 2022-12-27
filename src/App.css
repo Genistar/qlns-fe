@@ -154,6 +154,12 @@ input[type="text"][disabled] {
   background-color: #fff0d2;
   border-bottom: none;
 }
+.header-table .ant-table-thead tr th{
+  padding: 10px;
+  font-weight: 600;
+  background-color: #71f1ff !important;
+  border-bottom: none;
+}
 .ant-table-container table > thead > tr:first-child th:first-child {
   border-top-left-radius: 8px;
   /* text-align: center; */
