@@ -1,6 +1,6 @@
 
-import { Button, Form, Input, Row, Select, Space, Table, Typography, message as notice } from 'antd'
-import React, { useEffect, useState } from 'react';
+import { Button, Form, Input, Row, Select, Space, Table, Typography, message as notice, Badge, Tag } from 'antd'
+import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import styles from '../../PersonalManagement/Style.module.scss'
@@ -14,6 +14,7 @@ import { CSVLink } from 'react-csv';
 import { directorySelector, getContractType } from '../../../../../slices/directorySlice';
 import Update from '../../../../../components/button/Update';
 import Delete from '../../../../../components/button/Delete';
+import { daysdifference } from '../../../../../utils/getDate';
 
 type Props = {}
 
@@ -107,6 +108,25 @@ const ContractList = (props: Props) => {
             key: 'boMon',
         },
         {
+            title: 'Trạng thái',
+            key: 'status',
+            render: (data: any, record: any) => (
+                <Space size="middle">
+                    <Tag
+                        style={{ width: '6rem', textAlign: 'center' }}
+                        color={data.status < 30 && data.status > 7 ? 'yellow' : (data.status < 7 && data.status > 0 ? 'orange' : (data.status < 0 ? 'red' : 'green'))}
+                    >
+                        <Badge
+                            style={{ marginRight: 10 }}
+                            color={data.status < 30 && data.status > 7 ? 'yellow' : (data.status < 7 && data.status > 0 ? 'orange' : (data.status < 0 ? 'red' : 'green'))}
+                        />
+                        {data.status < 30 && data.status > 7 ? 'Gần hết hạn' : (data.status < 7 && data.status > 0 ? 'Sắp hết hạn' : (data.status < 0 ? 'Hết hạn' : 'Còn hạn'))}
+                    </Tag>
+
+                </Space>
+            ),
+        },
+        {
             title: 'Bắt đầu',
             dataIndex: 'thoiGianBD',
             key: 'thoiGianBD',
@@ -116,23 +136,15 @@ const ContractList = (props: Props) => {
             dataIndex: 'thoiGianKT',
             key: 'thoiGianKT',
         },
+
         {
             key: 'action',
             render: (_: any, record: any) => (
                 <Space size="middle">
                     <Update link={`/admin/contractmanagement/update/${record.id}`} id={record.id} />
+                    <Delete id={record.id} onDelete={onDelete} />
                 </Space>
             ),
-        },
-        {
-            key: 'action',
-            render: (_: any, record: any) => {
-                return (
-                    <Space size="middle">
-                        <Delete id={record.id} onDelete={onDelete} />
-                    </Space>
-                )
-            }
         },
         {
             key: 'action',
@@ -185,16 +197,22 @@ const ContractList = (props: Props) => {
             key: 'ghiChu',
         },
     ];
-    const data2 = contracts.map((contract, index) => ({
-        stt: index + 1,
-        tenCanBo: isNameOff(users, contract.BenB),
-        loaiHopDong: contract.Loai_hop_dong?.tenLoaiHopDong,
-        thoiGianBD: moment(contract.hdTuNgay).format('DD/MM/YYYY'),
-        thoiGianKT: moment(contract.hdDenNgay).format('DD/MM/YYYY'),
-        boMon: contract.Bo_mon?.ten_bo_mon,
-        ...contract
-    }))
 
+
+    const data2 = contracts.map((contract, index) => {
+        let now = new Date()
+        const to = new Date(moment(contract.hdDenNgay).format('DD/MM/YYYY'))
+        return {
+            stt: index + 1,
+            tenCanBo: isNameOff(users, contract.BenB),
+            loaiHopDong: contract.Loai_hop_dong?.tenLoaiHopDong,
+            thoiGianBD: moment(contract.hdTuNgay).format('DD/MM/YYYY'),
+            thoiGianKT: moment(contract.hdDenNgay).format('DD/MM/YYYY'),
+            status: to.getTime() - now.getTime(),
+            boMon: contract.Bo_mon?.ten_bo_mon,
+            ...contract
+        }
+    })
     return (
         <Row
             className={styles.container}
@@ -262,15 +280,19 @@ const ContractList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : styles.dark}
                     className={styles.table}
                     dataSource={
-                        contracts.map((contract, index) => ({
-                            stt: index + 1,
-                            tenCanBo: isNameOff(users, contract.BenB),
-                            loaiHopDong: contract.Loai_hop_dong?.tenLoaiHopDong,
-                            thoiGianBD: moment(contract.hdTuNgay).format('DD/MM/YYYY'),
-                            thoiGianKT: moment(contract.hdDenNgay).format('DD/MM/YYYY'),
-                            boMon: contract.Bo_mon?.ten_bo_mon,
-                            ...contract
-                        }))
+                        contracts.map((contract: any, index) => {
+                            let now = new Date()
+                            return {
+                                stt: index + 1,
+                                tenCanBo: isNameOff(users, contract.BenB),
+                                loaiHopDong: contract.Loai_hop_dong?.tenLoaiHopDong,
+                                thoiGianBD: moment(contract.hdTuNgay).format('DD/MM/YYYY'),
+                                thoiGianKT: moment(contract.hdDenNgay).format('DD/MM/YYYY'),
+                                status: daysdifference(moment(contract.hdDenNgay).toDate().getTime(), now.getTime()),
+                                boMon: contract.Bo_mon?.ten_bo_mon,
+                                ...contract
+                            }
+                        })
                     }
                     columns={columns}
                     size='middle'

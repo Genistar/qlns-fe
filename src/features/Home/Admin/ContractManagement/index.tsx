@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import ContractAction from './ContractAction'
 import ContractDetail from './ContractDetail'
@@ -17,4 +17,4 @@ const ContractManagement = (props: Props) => {
     )
 }
 
-export default ContractManagement
+export default memo(ContractManagement)

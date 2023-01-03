@@ -1,10 +1,7 @@
-import React from 'react'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
-import AdminPage from './Admin'
-import UserPage from './User'
+import React, { memo } from 'react'
+import { Navigate, useLocation } from 'react-router-dom'
 import { Layout } from 'antd';
 import homes from './Home.module.scss'
-import MenuBar from '../../components/Menu/MenuAdmin';
 import { Link } from 'react-router-dom';
 import TopBar from '../../components/TopBar';
 import HomeRoutes from './Home';
@@ -17,7 +14,6 @@ const Home = (props: Props) => {
     let cbId = localStorage.getItem('cbId');
     let role = localStorage.getItem('role');
     let location = useLocation()
-    console.log(location.pathname.slice(1, 5))
     if (role && cbId) {
         return (
             <Layout style={{
@@ -53,4 +49,4 @@ const Home = (props: Props) => {
 
 }
 
-export default Home
+export default memo(Home)

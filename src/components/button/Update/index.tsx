@@ -11,8 +11,8 @@ type Props = {
 const Update: React.FC<Props> = (props: Props) => {
     const { link, id } = props
     return (
-        <Button type="default">
-            <Link to={link}><EditOutlined /></Link>
+        <Button style={{ width: 23 }} type="default">
+            <Link to={link}><EditOutlined style={{ marginLeft: -6 }} /></Link>
         </Button>
 
     )
