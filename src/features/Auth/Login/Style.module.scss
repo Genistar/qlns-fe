@@ -1,27 +1,43 @@
-.container{
-    position: absolute;
-    top:28%;
-    left:37%;
-    width: 24%;
-    height: 45%;
-    border-radius: 12px;
-    background-color: aquamarine;
-    box-shadow: 4px 4px 45px rgba(109, 46, 0, 0.35);
-    border: none;
-    .input{
-        width: 99%;
-        .inputStyle{
-            height: 44px;
-            width: 100%;
-            border-radius: 8px;
-
-        }
-    }
-    .btnLogin{
-        width: 40%;
-        height: 40px;
-        left: 29%;
-        border-radius: 8px;
+.containerWarp{
+    width: 100%;
+    height: 59.2em;
+    background: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80%27') 100% center no-repeat;
+    .container{
+        position: absolute;
+        top:28%;
+        left:37%;
+        width: 24%;
+        height: 45%;
+        border-radius: 12px;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 4px 4px 45px rgba(109, 46, 0, 0.35);
         border: none;
+        .label{
+            margin-top: -18%;
+            background: linear-gradient(7deg, rgb(212, 149, 198) 0%, rgb(43, 51, 161) 100%);
+            border-radius: 18px;
+            text-align: center;
+        }
+        .container_warp{
+            margin-top: 40px;
+            .input{
+                width: 99%;
+                .inputStyle{
+                    height: 44px;
+                    width: 100%;
+                    border-radius: 8px;
+        
+                }
+            }
+            .btnLogin{
+                width: 40%;
+                height: 40px;
+                left: 29%;
+                border-radius: 8px;
+                background: linear-gradient(7deg, rgb(212, 149, 198) 0%, rgb(43, 51, 161) 110%);
+                color: rgb(255, 255, 255);
+                border: none;
+            }
+        }
     }
 }

@@ -23,8 +23,8 @@ const ForeignUserList = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Ngày đi',
@@ -93,11 +93,11 @@ const ForeignUserList = (props: Props) => {
             label: 'Phần trăm hưởng lương', key: 'phanTramHuongLuong'
         },
     ];
-    const data2 = foreignsUser.map(foreign => (
+    const data2 = foreignsUser.map((foreign, index) => (
         {
+            stt: index + 1,
             batDau: moment(foreign.ngayDi).format('DD/MM/YYYY'),
             ketThuc: moment(foreign.ngayVe).format('DD/MM/YYYY'),
-            tenCanBo: isNameOff(foreign, foreign.fkMaCanBo),
             ...foreign
         }
     ))
@@ -140,8 +140,9 @@ const ForeignUserList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
                     className={styles.table + ' header-table'}
                     dataSource={
-                        foreignsUser.map(foreign => (
+                        foreignsUser.map((foreign, index) => (
                             {
+                                stt: index + 1,
                                 batDau: moment(foreign.ngayDi).format('DD/MM/YYYY'),
                                 ketThuc: moment(foreign.ngayVe).format('DD/MM/YYYY'),
                                 ...foreign

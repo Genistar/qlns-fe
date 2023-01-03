@@ -84,7 +84,7 @@ export const addAccount = createAsyncThunk('account/addAccount',
             }).then((res: AxiosResponse<any, any>) => { return res.data }).catch((err: any) => {
                 console.log(err)
             });
-            console.log(response)
+            console.log(value)
             return response
 
         } catch (e) {

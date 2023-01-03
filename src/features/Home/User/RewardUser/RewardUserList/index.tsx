@@ -28,8 +28,8 @@ const RewardUserList = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Tên Khen Thưởng',
@@ -68,7 +68,7 @@ const RewardUserList = (props: Props) => {
     const headers = [
         {
             label: 'STT',
-            key: 'id',
+            key: 'stt',
         },
         {
             label: 'Tên Khen Thưởng',
@@ -95,8 +95,8 @@ const RewardUserList = (props: Props) => {
             key: 'ghiChu',
         },
     ];
-    const data2 = rewardsUser.map(reward => ({
-        id: reward.id,
+    const data2 = rewardsUser.map((reward, index) => ({
+        stt: index + 1,
         tenKhenThuong: reward.DM_khen_thuong?.tenKhenThuong,
         tenCanBo: isNameOff(reward, reward.fkMaCanBo),
         ...reward
@@ -152,8 +152,8 @@ const RewardUserList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
                     className={styles.table + ' header-table'}
                     dataSource={
-                        rewardsUser.map(reward => ({
-                            id: reward.id,
+                        rewardsUser.map((reward, index) => ({
+                            stt: index + 1,
                             tenKhenThuong: reward.DM_khen_thuong?.tenKhenThuong,
                             ...reward
                         }))

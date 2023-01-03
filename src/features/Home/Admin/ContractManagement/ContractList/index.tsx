@@ -3,7 +3,6 @@ import { Button, Form, Input, Row, Select, Space, Table, Typography, message as 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
-import SelectItem from '../../../../../components/Select/index'
 import styles from '../../PersonalManagement/Style.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../../store/store';
 import { getAll, contractSelector, removeContract, deleteContract, updateDateContract } from '../contractSlice';
@@ -13,6 +12,8 @@ import { isNameOff } from '../../TrainingManagement/TrainingList';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { CSVLink } from 'react-csv';
 import { directorySelector, getContractType } from '../../../../../slices/directorySlice';
+import Update from '../../../../../components/button/Update';
+import Delete from '../../../../../components/button/Delete';
 
 type Props = {}
 
@@ -65,7 +66,7 @@ const ContractList = (props: Props) => {
                     fkMaCanBo: cbId,
                     noiDung: `${moment(hdDenNgay).format('DD/MM/YYYY')} -> ${moment(hdDenNgay).add(3, 'years').format('DD/MM/YYYY')}`
                 }));
-                dispatch(getAll())
+                dispatch(getAll({ keyword: '', contractDi: null, userOption: null }))
                 notice.success(res.payload.errMessage)
             }
             else {
@@ -119,7 +120,7 @@ const ContractList = (props: Props) => {
             key: 'action',
             render: (_: any, record: any) => (
                 <Space size="middle">
-                    <Link to={`/admin/contractmanagement/update/${record.id}`}>Cập nhật</Link>
+                    <Update link={`/admin/contractmanagement/update/${record.id}`} id={record.id} />
                 </Space>
             ),
         },
@@ -128,8 +129,7 @@ const ContractList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-
-                        <a className="btn btn-lg btn-danger" onClick={() => onDelete(record.id)}>Xóa</a>
+                        <Delete id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

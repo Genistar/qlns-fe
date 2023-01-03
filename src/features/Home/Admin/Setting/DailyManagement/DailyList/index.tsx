@@ -14,6 +14,7 @@ import { isNameOff } from '../../../TrainingManagement/TrainingList';
 import moment from 'moment';
 import { CSVLink } from 'react-csv';
 import { statusOption } from '../../../../../../constant/selectOption';
+import Delete from '../../../../../../components/button/Delete';
 
 type Props = {}
 
@@ -77,7 +78,7 @@ const DailyList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <a className="btn btn-lg btn-danger" onClick={() => onDelete(record.id)}>Xóa</a>
+                        <Delete id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

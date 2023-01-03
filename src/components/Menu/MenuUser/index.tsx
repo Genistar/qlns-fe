@@ -1,10 +1,9 @@
 import React from 'react'
 import { Button, Image, Menu, MenuProps, Typography } from 'antd';
-import { AppstoreOutlined, DesktopOutlined, SettingOutlined, MoreOutlined, LogoutOutlined } from '@ant-design/icons';
+import { ScheduleOutlined, RocketOutlined, IdcardOutlined, MoreOutlined, LogoutOutlined, ReadOutlined, SmileOutlined, FrownOutlined, HighlightOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/store';
 import { logoutUser } from '../../../features/Auth/userSlice';
-import styles from '../../Style.module.scss'
 type Props = {}
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
@@ -27,19 +26,20 @@ function getItem(
 const role = localStorage.getItem('role');
 const userItems: MenuItem[] = [
 
-    getItem(<Link to='/user/detail'>Thông tin cá nhân</Link>, '/user/detail', <AppstoreOutlined />),
+    getItem(<Link to='/user/detail'>Thông tin cá nhân</Link>, '/user/detail', <IdcardOutlined />),
 
-    getItem(<Link to='/user/contractuser'>Thông tin hợp đồng</Link>, '/user/contractuser', <DesktopOutlined />),
+    getItem(<Link to='/user/contractuser'>Thông tin hợp đồng</Link>, '/user/contractuser', <ScheduleOutlined />),
 
-    getItem(<Link to='/user/cultivateuser'>Quá trình bồi dưỡng</Link>, '/user/cultivateuser', <DesktopOutlined />),
+    getItem(<Link to='/user/cultivateuser'>Quá trình bồi dưỡng</Link>, '/user/cultivateuser', <ReadOutlined />),
 
-    getItem(<Link to='/user/traininguser'>Quá trình đào tạo</Link>, '/user/traininguser', <DesktopOutlined />),
+    getItem(<Link to='/user/traininguser'>Quá trình đào tạo</Link>, '/user/traininguser', <HighlightOutlined />),
 
-    getItem(<Link to='/user/rewarduser'>Quá trình khen thưởng</Link>, '/user/rewarduser', <DesktopOutlined />),
+    getItem(<Link to='/user/rewarduser'>Quá trình khen thưởng</Link>, '/user/rewarduser', <SmileOutlined />),
+    getItem(<Link to='/user/disciplineuser'>Quá trình kỹ luật</Link>, '/user/disciplineuser', <FrownOutlined />),
 
 
 
-    getItem('Quá trình công tác', 'sub5', <DesktopOutlined />,
+    getItem('Quá trình công tác', 'sub5', <RocketOutlined />,
         <MoreOutlined style={{
             position: 'absolute',
             top: '50%',
@@ -85,7 +85,7 @@ const MenuUserBar: React.FC = (props: Props) => {
                 onClick={() => { dispatch(logoutUser()); navigate('/login') }}
                 title='Đăng xuất'
             >
-                <Typography.Text style={{ marginTop: -3, marginLeft: 10, paddingLeft: 10, color: '#3366CC' }}>
+                <Typography.Text style={{ marginTop: -30, marginLeft: 10, paddingLeft: 10, color: '#3366CC' }}>
                     Đăng xuất
                 </Typography.Text>
             </Button>

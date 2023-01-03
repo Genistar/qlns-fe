@@ -1,24 +1,27 @@
 import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography, message as notice } from 'antd'
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../../store/store';
 import { getUsers, userSelector } from '../../../../Auth/userSlice';
 import styles from '../../PersonalManagement/Style.module.scss'
-import { directorySelector, getCivilServant, getContractType, getPosition, getSalaryScale, getSubjectsD } from '../../../../../slices/directorySlice';
+import { directorySelector, getCivilServant, getContractType, getDegreeD, getPosition, getSalaryScale, getSubjectsD } from '../../../../../slices/directorySlice';
 import moment from 'moment';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { isNameOff } from '../../TrainingManagement/TrainingList';
 import { addContract, contractSelector, getContract, updateContract } from '../contractSlice';
+import { can_bo_giang_day } from '../../../../../interface';
+import { degreeD } from '../../../../../interface/directory';
 type QuizParams = {
     key: any;
 };
 type Props = {}
 
 const ContractAction = (props: Props) => {
-    let { key } = useParams<QuizParams>()
+    let { key } = useParams<QuizParams>();
+    const [officerId, setOfficerId] = useState()
     const dispatch = useAppDispatch();
     const { users } = useAppSelector(userSelector);
-    const { contractType, subject, civilServant, salaryScale, position } = useAppSelector(directorySelector);
+    const { contractType, subject, civilServant, salaryScale, position, degreeD } = useAppSelector(directorySelector);
     const { contract } = useAppSelector(contractSelector)
     const [form] = Form.useForm();
     const navigate = useNavigate();
@@ -39,7 +42,8 @@ const ContractAction = (props: Props) => {
                 ngayKy: moment(contract?.ngayKy),
                 thuViecTuNgay: moment(contract?.thuViecTuNgay),
                 thuViecDenNgay: moment(contract?.thuViecDenNgay),
-                benA: contract?.benAQuocTich,
+                benA: contract?.benA,
+                benAQuocTich: contract?.benAQuocTich,
                 benAChucVu: contract?.benAChucVu,
                 benADienThoai: contract?.benADienThoai,
                 benADaiDienCho: contract?.benADaiDienCho,
@@ -82,6 +86,18 @@ const ContractAction = (props: Props) => {
             })
         }
     }, [contract]);
+    useEffect(() => {
+        if (officerId && !key) {
+            const user = users.find((data: can_bo_giang_day) => data.id === officerId);
+            dispatch(getDegreeD());
+            form.setFieldsValue({
+                ngheNghiep: user?.nghe_nghiep_tuyen_dung,
+                hdFkMaBoMon: user?.ma_bo_mon,
+                chucDanhChuyenMon: degreeD.find((data: degreeD) => data.id === user?.ma_hoc_vi)?.ten,
+                fkMaChucVu: user?.fk_chuc_vu
+            })
+        }
+    }, [officerId])
     const onFinish = (value: any) => {
         if (key) {
             dispatch(updateContract({
@@ -103,7 +119,15 @@ const ContractAction = (props: Props) => {
 
             })
         } else {
-            dispatch(addContract(value)).then((res: any) => {
+            const user = users.find((data: can_bo_giang_day) => data.id === value.benA);
+            dispatch(addContract({
+                ...value,
+                benAQuocTich: user?.quoc_tich,
+                benAChucVu: user?.fk_chuc_vu,
+                benADienThoai: user?.dien_thoai,
+                benADaiDienCho: user?.dien_thoai,
+                giaHan: 0
+            })).then((res: any) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
@@ -119,8 +143,6 @@ const ContractAction = (props: Props) => {
 
             })
         }
-
-        console.log(value)
     }
     const onBack = () => {
         navigate('../')
@@ -216,50 +238,77 @@ const ContractAction = (props: Props) => {
                             </Col>
                         </Row>
                     </Col>
-                    <Col span={24} className={styles.mr} style={{ marginTop: -90 }}>
-                        <Typography.Title level={3}>Người đại diện</Typography.Title>
-                        <Row>
-                            <Col span={6}>
-                                <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Bên A</Typography.Title>}
-                                    style={{ marginBottom: 10 }}
-                                    name='benA'
-                                    key='benA'
-                                >
-                                    <Input placeholder='Nhập bên A' className={styles.cardFormInput} />
-                                </Form.Item>
-                                <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>bên A chức vụ</Typography.Title>}
-                                    style={{ marginBottom: 10 }}
-                                    name='benAChucVu'
-                                    key='benAChucVu'
-                                >
-                                    <Select placeholder='Chọn chức vụ' className={styles.cardFormInput}>
-                                        {positionAOption}
-                                    </Select>
-                                </Form.Item>
+                    {key ?
+                        (<Col span={24} className={styles.mr} style={{ marginTop: -90 }}>
+                            <Typography.Title level={3}>Người đại diện</Typography.Title>
+                            <Row>
+                                <Col span={6}>
+                                    <Form.Item
+                                        label={<Typography.Title level={5} className={styles.labelcardFormInput}>Bên A</Typography.Title>}
+                                        style={{ marginBottom: 10 }}
+                                        name='benA'
+                                        key='benA'
+                                    >
+                                        <Select placeholder='Chọn bên A' className={styles.cardFormInput}>
+                                            {userOption}
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label={<Typography.Title level={5} className={styles.labelcardFormInput}>bên A chức vụ</Typography.Title>}
+                                        style={{ marginBottom: 10 }}
+                                        name='benAChucVu'
+                                        key='benAChucVu'
+                                    >
+                                        <Select placeholder='Chọn chức vụ' className={styles.cardFormInput}>
+                                            {positionAOption}
+                                        </Select>
+                                    </Form.Item>
+                                    <Form.Item
+                                        label={<Typography.Title level={5} className={styles.labelcardFormInput}>bên A quốc tịch</Typography.Title>}
+                                        style={{ marginBottom: 10 }}
+                                        name='benAQuocTich'
+                                        key='benAQuocTich'
+                                    >
+                                        <Input placeholder='Bên A quốc tịch' className={styles.cardFormInput} />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={6}>
+                                    <Form.Item
+                                        label={<Typography.Title level={5} className={styles.labelcardFormInput}>Điện thoại bên A</Typography.Title>}
+                                        style={{ marginBottom: 10 }}
+                                        name='benADienThoai'
+                                        key='benADienThoai'
+                                    >
+                                        <Input placeholder='Số điện thoại bên A' className={styles.cardFormInput} />
+                                    </Form.Item>
+                                    <Form.Item
+                                        label={<Typography.Title level={5} className={styles.labelcardFormInput}>Bên A đại diện cho</Typography.Title>}
+                                        style={{ marginBottom: 10 }}
+                                        name='benADaiDienCho'
+                                        key='benADaiDienCho'
+                                    >
+                                        <Input placeholder='Số điện thoại bên A' className={styles.cardFormInput} />
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Col>) : (<Col span={24} className={styles.mr} style={{ marginTop: -90 }}>
+                            <Typography.Title level={3}>Người đại diện</Typography.Title>
+                            <Row>
+                                <Col span={6}>
+                                    <Form.Item
+                                        label={<Typography.Title level={5} className={styles.labelcardFormInput}>Bên A</Typography.Title>}
+                                        style={{ marginBottom: 10 }}
+                                        name='benA'
+                                        key='benA'
+                                    >
+                                        <Select placeholder='Chọn bên A' className={styles.cardFormInput}>
+                                            {userOption}
+                                        </Select>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Col>)}
 
-                            </Col>
-                            <Col span={6}>
-                                <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Điện thoại bên A</Typography.Title>}
-                                    style={{ marginBottom: 10 }}
-                                    name='benADienThoai'
-                                    key='benADienThoai'
-                                >
-                                    <Input placeholder='Số điện thoại bên A' className={styles.cardFormInput} />
-                                </Form.Item>
-                                <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Bên A đại diện cho</Typography.Title>}
-                                    style={{ marginBottom: 10 }}
-                                    name='benADaiDienCho'
-                                    key='benADaiDienCho'
-                                >
-                                    <Input placeholder='Số điện thoại bên A' className={styles.cardFormInput} />
-                                </Form.Item>
-                            </Col>
-                        </Row>
-                    </Col>
                     <Col span={24} className={styles.mr} style={{ marginTop: 0 }}>
                         <Typography.Title level={3}>Thông tin cán bộ</Typography.Title>
                         <Row>
@@ -270,7 +319,7 @@ const ContractAction = (props: Props) => {
                                     name='BenB'
                                     key='BenB'
                                 >
-                                    <Select placeholder='Chọn cán bộ' className={styles.cardFormInput}>
+                                    <Select placeholder='Chọn cán bộ' className={styles.cardFormInput} onChange={(e) => setOfficerId(e)}>
                                         {userOption}
                                     </Select>
                                 </Form.Item>

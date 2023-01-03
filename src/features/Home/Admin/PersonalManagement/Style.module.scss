@@ -158,3 +158,24 @@
         }
     }
 }
+.custom_file_input{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    background: url('https://cdn-icons-png.flaticon.com/512/650/650143.png') center no-repeat ;
+    background-size: 70%;
+    border: 0.6px solid #e3e3e3;
+    margin-top: -70%;
+    left:50%;
+    z-index: 10;
+}
+.custom_file_input::-webkit-file-upload-button {
+    visibility: hidden;
+  }
+.custom_file_input:hover::before {
+  border-color: black;
+}
+.custom_file_input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}

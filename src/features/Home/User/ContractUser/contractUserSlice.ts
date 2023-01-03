@@ -66,7 +66,6 @@ const contractUserSlice = createSlice({
     reducers: {
         removeUserContract: (state, action) => {
             let { id } = action.payload;
-            console.log(id)
             let result = state.contractsUser.findIndex((data) => data.id === id);
             // let i = state.users.findIndex((user) => user.can_bo_giang_day.id === id);
             state.contractsUser.splice(result, 1);

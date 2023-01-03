@@ -29,8 +29,8 @@ const DisciplineUserList = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Tên Kỷ Luật',
@@ -74,7 +74,7 @@ const DisciplineUserList = (props: Props) => {
     const headers = [
         {
             label: 'STT',
-            key: 'id',
+            key: 'stt',
         },
         {
             label: 'Tên Kỷ Luật',
@@ -105,7 +105,8 @@ const DisciplineUserList = (props: Props) => {
             key: 'ghiChu',
         },
     ];
-    const data2 = disciplinesUser.map(discipline => ({
+    const data2 = disciplinesUser.map((discipline, index) => ({
+        stt: index + 1,
         tenKyLuat: discipline.DM_ky_luat?.tenKyLuat,
         tenCanBo: isNameOff(discipline, discipline.fkMaCanBo),
         ...discipline
@@ -161,7 +162,8 @@ const DisciplineUserList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
                     className={styles.table + ' header-table'}
                     dataSource={
-                        disciplinesUser.map(discipline => ({
+                        disciplinesUser.map((discipline, index) => ({
+                            stt: index + 1,
                             tenKyLuat: discipline.DM_ky_luat?.tenKyLuat,
                             ...discipline
                         }))

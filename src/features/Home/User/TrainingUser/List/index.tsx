@@ -35,8 +35,8 @@ const TrainingUserList = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Hệ đào tạo',
@@ -90,7 +90,7 @@ const TrainingUserList = (props: Props) => {
     const headers = [
         {
             label: 'STT',
-            key: 'id',
+            key: 'stt',
         },
         {
             label: 'Tên Cán bộ',
@@ -129,7 +129,8 @@ const TrainingUserList = (props: Props) => {
             key: 'ketThuc',
         },
     ];
-    const data2 = trainingsUser.map(training => ({
+    const data2 = trainingsUser.map((training, index) => ({
+        stt: index + 1,
         tenBac: training.Bac_dao_tao?.tenBac,
         tenHeDaoTao: training.DM_he_dao_tao?.tenHeDaoTao,
         batDau: moment(training.thoiGianBD).format('DD/MM/YYYY'),
@@ -201,7 +202,8 @@ const TrainingUserList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
                     className={styles.table + ' header-table'}
                     dataSource={
-                        trainingsUser.map(training => ({
+                        trainingsUser.map((training, index) => ({
+                            stt: index + 1,
                             tenBac: training.Bac_dao_tao?.tenBac,
                             tenHeDaoTao: training.DM_he_dao_tao?.tenHeDaoTao,
                             batDau: moment(training.thoiGianBD).format('DD/MM/YYYY'),

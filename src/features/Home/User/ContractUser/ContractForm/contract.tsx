@@ -1,9 +1,13 @@
 import { Button } from 'antd';
 import { asBlob } from 'html-docx-js-typescript';
 import { saveAs } from 'file-saver'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { contract } from '../../../../../interface/contract'
 import './contractWord.module.css'
+import { useAppDispatch, useAppSelector } from '../../../../../store/store';
+import { getUsers, userSelector } from '../../../../Auth/userSlice';
+import { can_bo_giang_day } from '../../../../../interface';
+import moment from 'moment';
 
 type Props = {
     contractUser: contract | null;
@@ -14,11 +18,24 @@ const ContractWord = (props: Props) => {
     let { contractUser } = props;
     let string = document.getElementById('contentContract');
     let contentToPrint: any = string?.outerHTML.toString();
-    const id = localStorage.getItem('cbId')
+    const dispatch = useAppDispatch();
+    const { users } = useAppSelector(userSelector);
+    const id = localStorage.getItem('cbId');
+    useEffect(() => {
+        dispatch(getUsers())
+    }, [])
+    const A = users.find((data: can_bo_giang_day) => data.id === contractUser?.benA)
+    const B = users.find((data: can_bo_giang_day) => data.id === contractUser?.BenB)
     const saveWord = () => {
         asBlob(contentToPrint).then((data: any) => {
             saveAs(data, 'contract.docx') // save as docx file
         }) // asBlob() return Promise<Blob|Buffer>
+    }
+    let times: number = 0;
+    if (contractUser?.fkMaLoaiHD === 'H2') {
+        times = Math.round((moment(contractUser?.hdTuNgay).year() - moment(B?.ngay_vao_truong).year()) / 3)
+    } else {
+        times = Math.round((moment(contractUser?.hdTuNgay).year() - moment(B?.ngay_vao_truong).year()) / 1)
     }
     return (
         <div>
@@ -48,39 +65,39 @@ const ContractWord = (props: Props) => {
                     <p className="s2" style={{ paddingTop: '5pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Bên A : Người sử dụng
                         lao động</p>
                     <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Tên người đại diện:
-                        {contractUser?.benA}</p>
+                        {A?.ten + ' ' + A?.ho}</p>
                     <p style={{ paddingTop: '5pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Địa chỉ:
-                        .......................................................................................</p>
+                        {A?.dia_chi + ', ' + A?.xa_phuong + ', ' + A?.quan_huyen + ', ' + A?.tinh_tp}</p>
                     <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Điện thoại:{contractUser?.benADienThoai}</p>
-                    <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Đại diện: {contractUser?.benADaiDienCho}
-                        Chức vụ: Quốc tịch: Việt Nam</p>
+                    <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Đại diện: {contractUser?.benADaiDienCho + ' '}
+                        Chức vụ: {contractUser?.benAChucVu}  Quốc tịch: {contractUser?.benAQuocTich}</p>
                     <p className="s2" style={{ paddingTop: '5pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Bên B : Người lao động
                     </p>
                     <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', lineHeight: '140%', textAlign: 'left' }}>Ông/bà:
-                        {contractUser?.BenB} Quốc tịch: {contractUser?.benAQuocTich}..</p>
-                    <p style={{ paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Ngày sinh: ………………………….</p>
-                    <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Nơi sinh: ………………………………….</p>
+                        {B?.ten + ' ' + B?.ho}  Quốc tịch: {B?.quoc_tich}..</p>
+                    <p style={{ paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Ngày sinh: {moment(B?.ngay_sinh).format('DD/MM/YYYY')}.</p>
+                    <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Nơi sinh: {B?.noi_sinh}.</p>
                     <p style={{ paddingTop: '5pt', paddingLeft: '5pt', textIndent: '0pt', lineHeight: '140%', textAlign: 'left' }}>Địa chỉ thường
-                        trú: ………………………………………. Địa chỉ tạm trú: ………………………………………….</p>
-                    <p style={{ paddingLeft: '5pt', textIndent: '0pt', lineHeight: '140%', textAlign: 'left' }}>Số CMND/CCCD: ……………. Cấp
-                        ngày: …………… Tại: ………………….</p>
+                        trú: {B?.que_quan}. Địa chỉ tạm trú: {B?.dia_chi + ', ' + B?.xa_phuong + ', ' + B?.quan_huyen + ', ' + B?.tinh_tp}.</p>
+                    <p style={{ paddingLeft: '5pt', textIndent: '0pt', lineHeight: '140%', textAlign: 'left' }}>Số CMND/CCCD: {B?.so_cmnd}. Cấp
+                        ngày: {moment(B?.noi_cap).format('DD/MM/YYYY')}, Tại:{B?.noi_cap}.</p>
                     <p className="s1" style={{ paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Cùng thoả thuận ký kết Hợp đồng lao động
                         (HĐLĐ) và cam kết làm đúng những điều khoản sau đây:</p>
                     <p className="s2" style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Điều 1<span className="h1">:
                         Công việc, địa điểm làm việc và thời hạn của Hợp đồng</span></p>
                     <p style={{ paddingTop: '5pt', paddingLeft: '5pt', textIndent: '0pt', lineHeight: '141%', textAlign: 'left' }}>Loại hợp đồng:
-                        ……. tháng - Ký lần thứ …… Từ ngày:……………. Đến ngày: ……………</p>
+                        {contractUser?.Loai_hop_dong?.tenLoaiHopDong}. tháng - Ký lần thứ: {times + 1} Từ ngày:{moment(contractUser?.hdTuNgay).format('DD/MM/YYYY')}. Đến ngày: {moment(contractUser?.hdDenNgay).format('DD/MM/YYYY')}</p>
                     <ul id="l1">
                         <li data-list-text="-">
                             <p style={{ paddingLeft: '12pt', textIndent: '-7pt', lineHeight: '15pt', textAlign: 'left' }}>Địa điểm làm việc:
-                                ……………………………………………………</p>
+                                {contractUser?.donViLamViecIn}</p>
                         </li>
                         <li data-list-text="-">
                             <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Bộ phận công tác:</p>
                             <p style={{ paddingTop: '5pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>+ Phòng
                                 ………………..<i>………………………………</i></p>
                             <p style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>+ Chức danh chuyên môn (vị
-                                trí công tác): <i>…………………….…………</i></p>
+                                trí công tác): <i>{contractUser?.chucDanhChuyenMon}.…………</i></p>
                         </li>
                         <li data-list-text="-">
                             <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Nhiệm vụ công việc như
@@ -96,11 +113,11 @@ const ContractWord = (props: Props) => {
                             <p className="s2" style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Điều 2<span className="h1">: Lương, phụ cấp, các khoản bổ sung khác</span></p>
                         </li>
                         <li data-list-text="-">
-                            <p style={{ paddingTop: '5pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Lương căn bản: ………………..
+                            <p style={{ paddingTop: '5pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Lương căn bản: {contractUser?.heSoLuong}..
                             </p>
                         </li>
                         <li data-list-text="-">
-                            <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Phụ cấp: ………………… ……</p>
+                            <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Phụ cấp: {contractUser?.phuCapGom} ……</p>
                         </li>
                         <li data-list-text="-">
                             <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Các khoản bổ sung khác:
@@ -112,7 +129,7 @@ const ContractWord = (props: Props) => {
                         </li>
                         <li data-list-text="-">
                             <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Thời hạn trả lương: Được
-                                trả lương vào ngày … của tháng.</p>
+                                trả lương vào {contractUser?.thoiGianTraLuong}.</p>
                         </li>
                         <li data-list-text="-">
                             <p style={{ paddingTop: '5pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Chế độ nâng bậc, nâng
@@ -121,8 +138,7 @@ const ContractWord = (props: Props) => {
                             <p className="s2" style={{ paddingTop: '6pt', paddingLeft: '5pt', textIndent: '0pt', textAlign: 'left' }}>Điều 3<span className="h1">: Thời giờ làm việc, nghỉ ngơi, bảo hộ lao động, BHXH, BHYT, BHTN</span></p>
                         </li>
                         <li data-list-text="-">
-                            <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Thời giờ làm việc: …
-                                giờ/ngày, … giờ/tuần, Nghỉ hàng tuần: ngày ……</p>
+                            <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Thời giờ làm việc: {contractUser?.thoiGianLamViec}, Nghỉ hàng tuần: ngày Chủ nhật</p>
                         </li>
                         <li data-list-text="-">
                             <p style={{ paddingTop: '6pt', paddingLeft: '12pt', textIndent: '-7pt', textAlign: 'left' }}>Từ ngày Thứ …. đến ngày

@@ -39,40 +39,45 @@ const Login: React.FC<Props> = (props: Props) => {
 
 
     return (
-        <Card className={styles.container}>
-            <Typography.Title level={3}>Nhập thông tin đăng nhập</Typography.Title>
-            <Form
-                form={form}
-                onFinish={onFinish}
-                className={styles.container_warp}
-                layout='vertical'
-            >
-                <Form.Item
-                    name='username'
-                    label={
-                        <Typography.Text>Tài khoản</Typography.Text>
-                    }
-                    className={styles.input}
+        <div className={styles.containerWarp}>
+            <Card className={styles.container}>
+                <Card className={styles.label}>
+                    <Typography.Title level={3} style={{ color: 'rgb(255, 255, 255)' }}>ĐĂNG NHẬP</Typography.Title>
+                </Card>
+                <Form
+                    form={form}
+                    onFinish={onFinish}
+                    className={styles.container_warp}
+                    layout='vertical'
                 >
-                    <Input placeholder='Nhập tài khoản' className={styles.inputStyle} />
-                </Form.Item>
-                <Form.Item
-                    name='password'
-                    label={
-                        <Typography.Text>Mật khẩu</Typography.Text>
-                    }
-                    className={styles.input}
-                >
-                    <Input.Password placeholder='Nhập mật khẩu' className={styles.inputStyle} />
-                </Form.Item>
-                <Button
-                    htmlType='submit'
-                    className={styles.btnLogin}
-                >
-                    Đăng nhập
-                </Button>
-            </Form>
-        </Card>
+                    <Form.Item
+                        name='username'
+                        label={
+                            <Typography.Text>Tài khoản</Typography.Text>
+                        }
+                        className={styles.input}
+                    >
+                        <Input placeholder='Nhập tài khoản' className={styles.inputStyle} />
+                    </Form.Item>
+                    <Form.Item
+                        name='password'
+                        label={
+                            <Typography.Text>Mật khẩu</Typography.Text>
+                        }
+                        className={styles.input}
+                    >
+                        <Input.Password placeholder='Nhập mật khẩu' className={styles.inputStyle} />
+                    </Form.Item>
+                    <Button
+                        htmlType='submit'
+                        className={styles.btnLogin}
+                    >
+                        Đăng nhập
+                    </Button>
+                </Form>
+            </Card>
+        </div>
+
     )
 }
 

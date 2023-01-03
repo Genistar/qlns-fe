@@ -12,21 +12,25 @@ type Props = {}
 const breadcrumbNameMap: Record<string, string> = {
     "/admin/personalmanagementF": "Nhân sự",
     '/admin/businessmanagement/domesticF': 'Công tác trong nước',
-    '/admin/businessmanagement/foreigncF': 'Công tác ngoài nước',
+    '/admin/businessmanagement/foreignF': 'Công tác ngoài nước',
     '/admin/trainingmanagementF': 'Bồi dưỡng',
     '/admin/rewardmanagementF': 'Khen thưởng',
     '/admin/disciplinemanagementF': 'Kỹ luật',
     '/admin/cultivatemanagementF': 'Đào tạo',
+    '/admin/contractmanagementF': 'Hợp đồng',
+    '/admin/setting/accountF': 'Cài đặt',
+    '/admin/setting/dailyF': 'Cài đặt',
 
 };
 const breadcrumbUserMap: Record<string, string> = {
     "/user/detailF": "Thông tin cá nhân",
-    '/user/businessuser/domesticF': 'Công tác trong nước',
-    '/user/businessuser/foreigncF': 'Công tác ngoài nước',
+    '/user/businessuser/domesticuserF': 'Công tác trong nước',
+    '/user/businessuser/foreignuserF': 'Công tác ngoài nước',
     '/user/traininguserF': 'Bồi dưỡng',
     '/user/rewarduserF': 'Khen thưởng',
     '/user/disciplineuserF': 'Kỹ luật',
     '/user/cultivateuserF': 'Đào tạo',
+    '/user/contractuserF': 'Hợp đồng',
 
 };
 const TopBar = (props: Props) => {
@@ -39,7 +43,7 @@ const TopBar = (props: Props) => {
         dispatch(getUsers())
         dispatch(getUser(cbId))
     }, [])
-    const breadcrumbs = useBreadcrumbs(role === 'admin' ? routesAdmin : routesUser, { disableDefaults: true });
+    const breadcrumbs = useBreadcrumbs(location.pathname.slice(1, 6) === 'admin' ? routesAdmin : routesUser, { disableDefaults: true });
     const extraBreadcrumbItems = breadcrumbs.map(
         ({ match, breadcrumb }, index) => {
             if (match.route?.props?.root) {
@@ -47,7 +51,7 @@ const TopBar = (props: Props) => {
                     <Fragment key={index}>
                         <Breadcrumb.Item>
                             <Link to={match.pathname}>
-                                {role === 'admin' ? breadcrumbNameMap[match.pathname + "F"] : breadcrumbUserMap[match.pathname + "F"]}
+                                {location.pathname.slice(1, 6) === 'admin' ? breadcrumbNameMap[match.pathname + "F"] : breadcrumbUserMap[match.pathname + "F"]}
                             </Link>
                         </Breadcrumb.Item>
                         <Breadcrumb.Item>

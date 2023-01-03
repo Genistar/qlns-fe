@@ -600,7 +600,7 @@ const ContractDetail = (props: Props) => {
                         <ModalPrintContract />
                     </Col>
                     <Col span={6}>
-                        <Button className={styles.btn} onClick={onGiaHan} htmlType='submit'>
+                        <Button className={styles.btn} onClick={onGiaHan} htmlType='submit' disabled={moment(contractUser?.hdDenNgay) > date ? true : false}>
                             Gia Hạn
                         </Button>
                     </Col>

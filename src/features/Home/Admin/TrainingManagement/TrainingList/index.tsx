@@ -12,6 +12,8 @@ import { getUsers, userSelector } from '../../../../Auth/userSlice';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { directorySelector, getTrainingLevel, gettypeOfTrainingD } from '../../../../../slices/directorySlice'
 import { CSVLink } from 'react-csv';
+import Delete from '../../../../../components/button/Delete';
+import Update from '../../../../../components/button/Update';
 
 type Props = {}
 
@@ -92,8 +94,8 @@ const TrainingList = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Tên Cán bộ',
@@ -153,8 +155,8 @@ const TrainingList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <Link to={`/admin/trainingmanagement/update/${record.id}`}>Cập nhật</Link>
-                        <a className="btn btn-lg btn-danger" onClick={() => onDelete(record.id)}>Xóa</a>
+                        <Update link={`/admin/trainingmanagement/update/${record.id}`} id={record.id} />
+                        <Delete id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }
@@ -163,7 +165,7 @@ const TrainingList = (props: Props) => {
     const headers = [
         {
             label: 'STT',
-            key: 'id',
+            key: 'stt',
         },
         {
             label: 'Tên Cán bộ',
@@ -291,7 +293,8 @@ const TrainingList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : styles.dark}
                     className={styles.table}
                     dataSource={
-                        trainings.map(training => ({
+                        trainings.map((training, index) => ({
+                            stt: index + 1,
                             tenBac: training.Bac_dao_tao?.tenBac,
                             tenHeDaoTao: training.DM_he_dao_tao?.tenHeDaoTao,
                             batDau: moment(training.thoiGianBD).format('DD/MM/YYYY'),

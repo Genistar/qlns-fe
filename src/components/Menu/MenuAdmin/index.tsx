@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Button, Image, Menu, MenuProps, Typography } from 'antd';
-import { AppstoreOutlined, DesktopOutlined, SettingOutlined, MoreOutlined, LogoutOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, RocketOutlined, SettingOutlined, MoreOutlined, FormOutlined, HighlightOutlined, SmileOutlined, FrownOutlined, UserOutlined, ReadOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../store/store';
 import { logoutUser } from '../../../features/Auth/userSlice';
@@ -25,17 +25,16 @@ function getItem(
         className
     } as MenuItem;
 }
-const role = localStorage.getItem('role');
 const items: MenuItem[] = [
     getItem(<Link to='/admin/dashboard'>Dashboard</Link>, '/admin/dashboard', <AppstoreOutlined />, styles.antMenu),
 
-    getItem(<Link to='/admin/personalmanagement'>Quản lý nhân sự</Link>, '/admin/devices', <DesktopOutlined />),
-    getItem(<Link to='/admin/trainingmanagement'>Quản lý đào tạo</Link>, '/admin/trainingmanagement', <DesktopOutlined />),
-    getItem(<Link to='/admin/rewardmanagement'>Quản lý khen thưởng</Link>, '/admin/rewardmanagement', <DesktopOutlined />),
-    getItem(<Link to='/admin/disciplinemanagement'>Quản lý kỹ luật</Link>, '/admin/disciplinemanagement', <DesktopOutlined />),
-    getItem(<Link to='/admin/cultivatemanagement'>Quản lý bồi dưỡng</Link>, '/admin/cultivatemanagement', <DesktopOutlined />),
-    getItem(<Link to='/admin/contractmanagement'>Quản lý hợp đồng</Link>, '/admin/contractmanagement', <DesktopOutlined />),
-    getItem('Quá trình công tác', 'sub5', <DesktopOutlined />,
+    getItem(<Link to='/admin/personalmanagement'>Quản lý nhân sự</Link>, '/admin/devices', <UserOutlined />),
+    getItem(<Link to='/admin/trainingmanagement'>Quản lý đào tạo</Link>, '/admin/trainingmanagement', <HighlightOutlined />),
+    getItem(<Link to='/admin/rewardmanagement'>Quản lý khen thưởng</Link>, '/admin/rewardmanagement', <SmileOutlined />),
+    getItem(<Link to='/admin/disciplinemanagement'>Quản lý kỹ luật</Link>, '/admin/disciplinemanagement', <FrownOutlined />),
+    getItem(<Link to='/admin/cultivatemanagement'>Quản lý bồi dưỡng</Link>, '/admin/cultivatemanagement', <ReadOutlined />),
+    getItem(<Link to='/admin/contractmanagement'>Quản lý hợp đồng</Link>, '/admin/contractmanagement', <FormOutlined />),
+    getItem('Quá trình công tác', 'sub5', <RocketOutlined />,
         <MoreOutlined style={{
             position: 'absolute',
             top: '50%',
@@ -78,7 +77,7 @@ const MenuBar: React.FC = (props: Props) => {
             <Button
                 style={{
                     textAlign: 'center',
-                    marginTop: '68%',
+                    marginTop: '50%',
                     marginLeft: 12,
                     width: 176,
                     height: 48,

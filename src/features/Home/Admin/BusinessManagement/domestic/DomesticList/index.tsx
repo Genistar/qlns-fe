@@ -13,6 +13,8 @@ import { getUsers, userSelector } from '../../../../../Auth/userSlice';
 import { isNameOff } from '../../../TrainingManagement/TrainingList';
 import { addDaily } from '../../../Setting/DailyManagement/dailySlice';
 import { CSVLink } from 'react-csv';
+import Delete from '../../../../../../components/button/Delete';
+import Update from '../../../../../../components/button/Update';
 
 type Props = {}
 
@@ -53,8 +55,8 @@ const DomesticList = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Tên Cán bộ',
@@ -94,8 +96,8 @@ const DomesticList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <Link to={`/admin/businessmanagement/domestic/update/${record.id}`}>Cập nhật</Link>
-                        <a className="btn btn-lg btn-danger" onClick={() => onDelete(record.id)}>Xóa</a>
+                        <Update link={`/admin/businessmanagement/domestic/update/${record.id}`} id={record.id} />
+                        <Delete id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }
@@ -160,7 +162,8 @@ const DomesticList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : styles.dark}
                     className={styles.table}
                     dataSource={
-                        businesss.map(busi => ({
+                        businesss.map((busi, index) => ({
+                            stt: index + 1,
                             tenCanBo: isNameOff(users, busi.fkMaCanBo),
                             ...busi
                         }))

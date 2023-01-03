@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosResponse } from "axios";
+import { LOCAL_STORAGE_TOKEN_NAME } from "../../constant/token";
 import { can_bo_giang_day, Can_bo_giang_day } from "../../interface";
 import { iFilter } from "../../interface/filter";
 import { RootState } from "../../store/store";
@@ -50,7 +51,8 @@ export const login = createAsyncThunk(
             let user: {
                 errCode: number,
                 message: string,
-                user: Can_bo_giang_day | null
+                user: Can_bo_giang_day | null,
+                token: string
             };
             const response = await axios({
                 method: 'POST',
@@ -70,6 +72,7 @@ export const login = createAsyncThunk(
             user = await response
             localStorage.setItem('role', response.user.role)
             localStorage.setItem('cbId', response.user.cbId)
+            localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, user.token)
             return user
         } catch (error) {
             return thunkAPI.rejectWithValue({ error });
@@ -230,6 +233,7 @@ const userSlice = createSlice({
         logoutUser: (state) => {
             localStorage.removeItem("role");
             localStorage.removeItem("cbId");
+            localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
             state.userLogin = {
                 errCode: 0,
                 message: '',

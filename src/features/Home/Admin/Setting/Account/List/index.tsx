@@ -12,6 +12,7 @@ import { addDaily } from '../../../Setting/DailyManagement/dailySlice';
 import { CSVLink } from 'react-csv';
 import { isNameOff } from '../../../TrainingManagement/TrainingList';
 import { roleOption } from '../../../../../../constant/selectOption';
+import Update from '../../../../../../components/button/Update';
 
 type Props = {}
 
@@ -58,7 +59,7 @@ const AccountList = (props: Props) => {
             key: 'action',
             render: (_: any, record: any) => (
                 <Space size="middle">
-                    <Link to={`/admin/setting/account/update/${record.id}`}>Cập nhật</Link>
+                    <Update link={`/admin/setting/account/update/${record.id}`} id={record.id} />
                 </Space>
             ),
         }

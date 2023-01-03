@@ -11,6 +11,8 @@ import { deleteUser, getAll, removeUser, userSelector } from '../../../../Auth/u
 import { directorySelector, getAcademicRankD, getDegreeD, getMajorsD, getSubjectsD } from '../../../../../slices/directorySlice';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { CSVLink } from 'react-csv';
+import Delete from '../../../../../components/button/Delete';
+import Update from '../../../../../components/button/Update';
 
 type Props = {}
 
@@ -66,9 +68,9 @@ const PersonalList = (props: Props) => {
     }
     const columns = [
         {
-            title: 'Mã CB',
-            dataIndex: 'id',
-            key: 'id',
+            title: 'STT',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Họ và tên',
@@ -127,7 +129,7 @@ const PersonalList = (props: Props) => {
             key: 'action',
             render: (_: any, record: any) => (
                 <Space size="middle">
-                    <Link to={`/admin/personalmanagement/update/${record.id}`}>Cập nhật</Link>
+                    <Update link={`/admin/personalmanagement/update/${record.id}`} id={record.id} />
                 </Space>
             ),
         },
@@ -136,8 +138,7 @@ const PersonalList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-
-                        <a className="btn btn-lg btn-danger" onClick={() => onDelete(record.id)}>Xóa</a>
+                        <Delete id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }
@@ -145,8 +146,8 @@ const PersonalList = (props: Props) => {
     ];
     const headers = [
         {
-            label: 'Mã CB',
-            key: 'id',
+            label: 'STT',
+            key: 'stt',
         },
         {
             label: 'Họ',
@@ -271,7 +272,8 @@ const PersonalList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : styles.dark}
                     className={styles.table}
                     dataSource={
-                        users.map(u => ({
+                        users.map((u, index) => ({
+                            stt: index + 1,
                             hocVi: degreeD.find(data => (data.id === u.ma_hoc_vi))?.ten,
                             hocHam: academicRank.find(data => (data.id === u.ma_hoc_ham))?.ten,
                             nganh: majors.find(data => (data.id.toString() === u.fk_nganh))?.ten_nganh,

@@ -23,8 +23,8 @@ const DomesticUserList = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Thời gian',
@@ -105,7 +105,10 @@ const DomesticUserList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
                     className={styles.table + ' header-table'}
                     dataSource={
-                        domesticsUser
+                        domesticsUser.map((d, index) => ({
+                            stt: index + 1,
+                            ...d
+                        }))
                     }
                     columns={columns}
                     size='middle'

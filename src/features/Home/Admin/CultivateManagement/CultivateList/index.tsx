@@ -12,6 +12,8 @@ import { isNameOff } from '../../TrainingManagement/TrainingList';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { CSVLink } from 'react-csv';
 import { cultivationFormD, directorySelector } from '../../../../../slices/directorySlice';
+import Delete from '../../../../../components/button/Delete';
+import Update from '../../../../../components/button/Update';
 
 type Props = {}
 
@@ -105,8 +107,8 @@ const CultivateList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <Link to={`/admin/cultivatemanagement/update/${record.id}`}>Cập nhật</Link>
-                        <a className="btn btn-lg btn-danger" onClick={() => onDelete(record.id)}>Xóa</a>
+                        <Update link={`/admin/cultivatemanagement/update/${record.id}`} id={record.id} />
+                        <Delete id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

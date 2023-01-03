@@ -30,8 +30,8 @@ const CultivateUserList: React.FC = (props: Props) => {
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            key: 'id',
+            dataIndex: 'stt',
+            key: 'stt',
         },
         {
             title: 'Tên bồi dưỡng',
@@ -70,7 +70,7 @@ const CultivateUserList: React.FC = (props: Props) => {
     const headers = [
         {
             label: 'STT',
-            key: 'id',
+            key: 'stt',
         },
         {
             label: 'Tên bồi dưỡng',
@@ -97,7 +97,8 @@ const CultivateUserList: React.FC = (props: Props) => {
             key: 'ghiChu',
         },
     ];
-    const data2 = cultivatesUser.map(cultivate => ({
+    const data2 = cultivatesUser.map((cultivate, index) => ({
+        stt: index + 1,
         tenHinhThucBD: cultivate.DM_Hinh_Thuc_BD?.tenHinhThuc,
         tuNgay: moment(cultivate.boiDuongTuNgay).format('DD/MM/YYYY'),
         denNgay: moment(cultivate.boiDuongDenNgay).format('DD/MM/YYYY'),
@@ -153,7 +154,8 @@ const CultivateUserList: React.FC = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : (role === 'admin' ? styles.dark : styles.blue)}
                     className={styles.table + ' header-table'}
                     dataSource={
-                        cultivatesUser.map(cultivate => ({
+                        cultivatesUser.map((cultivate, index) => ({
+                            stt: index + 1,
                             tenHinhThucBD: cultivate.DM_Hinh_Thuc_BD?.tenHinhThuc,
                             tuNgay: moment(cultivate.boiDuongTuNgay).format('DD/MM/YYYY'),
                             denNgay: moment(cultivate.boiDuongDenNgay).format('DD/MM/YYYY'),

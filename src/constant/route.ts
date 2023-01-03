@@ -7,7 +7,6 @@ export const routesAdmin: BreadcrumbsRoute[] = [
         props: { root: true },
     },
     { path: "/admin/personalmanagement/add", breadcrumb: "Thêm nhân sự" },
-    { path: "/admin/personalmanagement/:id", breadcrumb: "Chi tiết nhân sự" },
     { path: "/admin/personalmanagement/update/:id", breadcrumb: "Cập nhật nhân sự" },
     {
         path: "/admin/businessmanagement/domestic",
@@ -51,12 +50,30 @@ export const routesAdmin: BreadcrumbsRoute[] = [
     { path: "/admin/disciplinemanagement/update/:id", breadcrumb: "Cập nhật kỹ luật" },
     {
         path: "/admin/cultivatemanagement",
-        breadcrumb: "Danh sách kỹ đào tạo",
+        breadcrumb: "Danh sách bồi dưỡng",
         props: { root: true },
     },
-    { path: "/admin/cultivatemanagement/add", breadcrumb: "Thêm kỹ luật" },
-    { path: "/admin/cultivatemanagement/:id", breadcrumb: "Chi tiết kỹ đào tạo" },
-    { path: "/admin/cultivatemanagement/update/:id", breadcrumb: "Cập nhật kỹ đào tạo" },
+    { path: "/admin/cultivatemanagement/add", breadcrumb: "Thêm bồi dưỡng" },
+    { path: "/admin/cultivatemanagement/:id", breadcrumb: "Chi tiết bồi dưỡng" },
+    { path: "/admin/cultivatemanagement/update/:id", breadcrumb: "Cập nhật bồi dưỡng" },
+    {
+        path: "/admin/contractmanagement",
+        breadcrumb: "Danh sách hợp đồng",
+        props: { root: true },
+    },
+    { path: "/admin/contractmanagement/add", breadcrumb: "Thêm hợp đồng" },
+    { path: "/admin/contractmanagement/update/:id", breadcrumb: "Cập nhật hợp đồng" },
+    {
+        path: "/admin/setting/account",
+        breadcrumb: "Danh sách tài khoản",
+        props: { root: true },
+    },
+    { path: "/admin/setting/account/update/:id", breadcrumb: "Cập nhật tài khoản" },
+    {
+        path: "/admin/setting/daily",
+        breadcrumb: "Danh sách nhật ký",
+        props: { root: true },
+    },
 ]
 export const routesUser: BreadcrumbsRoute[] = [
     {
@@ -65,21 +82,21 @@ export const routesUser: BreadcrumbsRoute[] = [
         props: { root: true },
     },
     {
-        path: "/user/businessmanagement/domestic",
+        path: "/user/businessuser/domesticuser",
         breadcrumb: "Danh sách công tác trong nước",
         props: { root: true },
     },
-    { path: "/user/businessuser/domestic/add", breadcrumb: "Thêm công tác trong nước" },
-    { path: "/user/businessuser/domestic/:id", breadcrumb: "Chi tiết công tác trong nước" },
-    { path: "/user/businessuser/domestic/update/:id", breadcrumb: "Cập nhật công tác trong nước" },
+    { path: "/user/businessuser/domesticuser/add", breadcrumb: "Thêm công tác trong nước" },
+    { path: "/user/businessuser/domesticuser/:id", breadcrumb: "Chi tiết công tác trong nước" },
+    { path: "/user/businessuser/domesticuser/update/:id", breadcrumb: "Cập nhật công tác trong nước" },
     {
-        path: "/user/businessuser/foreign",
+        path: "/user/businessuser/foreignuser",
         breadcrumb: "Danh sách công tác ngoài nước",
         props: { root: true },
     },
-    { path: "/user/businessuser/foreign/add", breadcrumb: "Thêm công tác ngoài nước" },
-    { path: "/user/businessuser/foreign/:id", breadcrumb: "Chi tiết công tác ngoài nước" },
-    { path: "/user/businessuser/foreign/update/:id", breadcrumb: "Cập nhật công tác ngoài nước" },
+    { path: "/user/businessuser/foreignuser/add", breadcrumb: "Thêm công tác ngoài nước" },
+    { path: "/user/businessuser/foreignuser/:id", breadcrumb: "Chi tiết công tác ngoài nước" },
+    { path: "/user/businessuser/foreignuser/update/:id", breadcrumb: "Cập nhật công tác ngoài nước" },
     {
         path: "/user/traininguser",
         breadcrumb: "Danh sách bồi dưỡng",
@@ -106,10 +123,15 @@ export const routesUser: BreadcrumbsRoute[] = [
     { path: "/user/disciplineuser/update/:id", breadcrumb: "Cập nhật kỹ luật" },
     {
         path: "/user/cultivateuser",
-        breadcrumb: "Danh sách kỹ đào tạo",
+        breadcrumb: "Danh sách bồi dưỡng",
         props: { root: true },
     },
     { path: "/user/cultivateuser/add", breadcrumb: "Thêm kỹ luật" },
-    { path: "/user/cultivateuser/:id", breadcrumb: "Chi tiết kỹ đào tạo" },
-    { path: "/user/cultivateuser/update/:id", breadcrumb: "Cập nhật kỹ đào tạo" },
+    { path: "/user/cultivateuser/:id", breadcrumb: "Chi tiết bồi dưỡng" },
+    { path: "/user/cultivateuser/update/:id", breadcrumb: "Cập nhật bồi dưỡng" },
+    {
+        path: "/user/contractuser",
+        breadcrumb: "thông tin hợp đồng",
+        props: { root: true },
+    },
 ]

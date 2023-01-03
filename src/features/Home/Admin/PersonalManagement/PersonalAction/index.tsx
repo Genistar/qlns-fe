@@ -51,6 +51,7 @@ const PersonalAction = (props: Props) => {
                 ngay_vao_dang_chinh_thuc: moment(user?.ngay_vao_dang_chinh_thuc, 'DD/MM/YYYY'),
                 ngay_nhap_ngu: moment(user?.ngay_nhap_ngu, 'DD/MM/YYYY'),
                 ngay_xuat_ngu: moment(user?.ngay_xuat_ngu, 'DD/MM/YYYY'),
+                ngay_cap: moment(user?.ngay_cap),
                 id: user?.id,
                 dia_chi: user?.dia_chi,
                 ho: user?.ho,
@@ -96,12 +97,12 @@ const PersonalAction = (props: Props) => {
         let quan_huyen = districts.find((data: any) => data.id === value.quan_huyen)
         if (key) {
             dispatch(updatePersonal({
+                ...value,
                 id: key,
                 hinh_anh: avatar,
                 tinh_tp: tinh_tp?.name,
                 quan_huyen: quan_huyen?.name,
                 xa_phuong: xa_phuong?.name,
-                ...value,
                 ngay_nhap_ngu: moment(value.ngay_nhap_ngu).format('DD/MM/YYYY'),
                 ngay_xuat_ngu: moment(value.ngay_xuat_ngu).format('DD/MM/YYYY'),
                 ngay_vao_dang_chinh_thuc: moment(value.ngay_vao_dang_chinh_thuc).format('DD/MM/YYYY'),
@@ -122,12 +123,7 @@ const PersonalAction = (props: Props) => {
             }
             )
         } else {
-            dispatch(addAccount({
-                cbId: value.cbId,
-                username: value.email,
-                password: '12345',
-                role: 'user'
-            }))
+
             dispatch(addPersonal({
                 hinh_anh: avatar,
                 tinh_tp: tinh_tp?.name,
@@ -136,6 +132,12 @@ const PersonalAction = (props: Props) => {
                 ...value
             })).then((res: any) => {
                 if (res.payload.errCode === 0) {
+                    dispatch(addAccount({
+                        cbId: value.id,
+                        username: value.email,
+                        password: '12345',
+                        role: 'user'
+                    }))
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm cán bộ',
                         fkMaCanBo: value.fkMaCanBo,
@@ -150,7 +152,6 @@ const PersonalAction = (props: Props) => {
             }
             )
         }
-        console.log(tinh_tp?.name)
     }
     let citiesOption = cities.map((c: any, index) => (
         {
@@ -229,7 +230,7 @@ const PersonalAction = (props: Props) => {
                                             setPreviewAvatar(stringBase64)
                                             setAvatar(event.target.files[0])
                                         }}
-                                        style={{ marginTop: -230, marginLeft: 0 }}
+                                        style={{ marginTop: -230, marginLeft: 10 }}
                                     />
                                 </Form.Item>
                             </Col>
@@ -243,11 +244,12 @@ const PersonalAction = (props: Props) => {
                                     <Input placeholder='Nhập mã cán bộ' className={styles.cardFormInput} />
                                 </Form.Item>
                                 <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Họ</Typography.Title>}
+                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Email</Typography.Title>}
                                     style={{ marginBottom: 10 }}
-                                    name='ho'
+                                    name='email'
+                                    key={'email'}
                                 >
-                                    <Input placeholder='Nhập họ' className={styles.cardFormInput} />
+                                    <Input placeholder='Nhập Email' className={styles.cardFormInput} />
                                 </Form.Item>
                                 <Form.Item
                                     label={<Typography.Title level={5} className={styles.labelcardFormInput}>Dân tộc</Typography.Title>}
@@ -262,12 +264,12 @@ const PersonalAction = (props: Props) => {
                             </Col>
                             <Col span={6}>
                                 <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Tên</Typography.Title>}
+                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Họ</Typography.Title>}
                                     style={{ marginBottom: 10 }}
-                                    name='ten'
-                                    key='ten'
+                                    name='ho'
+                                    key='ho'
                                 >
-                                    <Input placeholder='Nhập tên' className={styles.cardFormInput} />
+                                    <Input placeholder='Nhập họ' className={styles.cardFormInput} />
                                 </Form.Item>
                                 <Form.Item
                                     label={<Typography.Title level={5} className={styles.labelcardFormInput}>Số điện thoại</Typography.Title>}
@@ -290,12 +292,12 @@ const PersonalAction = (props: Props) => {
                             </Col>
                             <Col span={6}>
                                 <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Email</Typography.Title>}
+                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Tên</Typography.Title>}
                                     style={{ marginBottom: 10 }}
-                                    name='email'
-                                    key='email'
+                                    name='ten'
+                                    key='ten'
                                 >
-                                    <Input placeholder='Nhập email' className={styles.cardFormInput} />
+                                    <Input placeholder='Nhập tên' className={styles.cardFormInput} />
                                 </Form.Item>
                                 <Form.Item
                                     label={<Typography.Title level={5} className={styles.labelcardFormInput}>Giới tính</Typography.Title>}
