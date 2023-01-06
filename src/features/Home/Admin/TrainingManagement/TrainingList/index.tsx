@@ -63,24 +63,20 @@ const TrainingList = (props: Props) => {
 
     const onDelete = (id: string) => {
 
-        // let newUser = users.filter((user) => user.can_bo_giang_day.id === id)
-
-        if (confirm("Bạn có muốn xóa cán bộ này không ?")) { //eslint-disable-line
-            dispatch(removeTraining({ id }))
-            dispatch(deleteTraining(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    dispatch(addDaily({
-                        ten_hoat_dong: 'Xóa',
-                        fkMaCanBo: cbId,
-                        noiDung: `Thông tin mục đào tạo ${id}`
-                    }))
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(removeTraining({ id }))
+        dispatch(deleteTraining(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                dispatch(addDaily({
+                    ten_hoat_dong: 'Xóa',
+                    fkMaCanBo: cbId,
+                    noiDung: `Thông tin mục đào tạo ${id}`
+                }))
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
     }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
@@ -156,7 +152,7 @@ const TrainingList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/trainingmanagement/update/${record.id}`} id={record.id} />
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete title='đào tạo' id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

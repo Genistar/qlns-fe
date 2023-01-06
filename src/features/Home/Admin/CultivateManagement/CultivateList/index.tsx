@@ -1,8 +1,8 @@
 
-import { Button, Form, Input, Row, Select, Space, Table, Typography, message as notice } from 'antd'
+import { Button, Form, Input, Row, Select, Space, Table, Typography, message as notice, Modal } from 'antd'
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { CaretLeftOutlined, CaretRightOutlined, ExclamationCircleFilled } from '@ant-design/icons'
 import styles from '../../PersonalManagement/Style.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../../store/store';
 import { getAll, cultivateSelector, removeCultivate, deleteCultivate } from '../cultivateSlice';
@@ -14,7 +14,7 @@ import { CSVLink } from 'react-csv';
 import { cultivationFormD, directorySelector } from '../../../../../slices/directorySlice';
 import Delete from '../../../../../components/button/Delete';
 import Update from '../../../../../components/button/Update';
-
+const { confirm } = Modal;
 type Props = {}
 
 
@@ -35,22 +35,20 @@ const CultivateList = (props: Props) => {
     }, [keyword, officer, cultivateDi])
     const onDelete = (id: string) => {
 
-        if (confirm("Bạn có muốn xóa mục bồi dưỡng này không ?")) { //eslint-disable-line
-            dispatch(removeCultivate({ id }))
-            dispatch(deleteCultivate(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    dispatch(addDaily({
-                        ten_hoat_dong: 'Xóa',
-                        fkMaCanBo: cbId,
-                        noiDung: `Thông tin mục bồi dưỡng ${id}`
-                    }))
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(removeCultivate({ id }))
+        dispatch(deleteCultivate(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                dispatch(addDaily({
+                    ten_hoat_dong: 'Xóa',
+                    fkMaCanBo: cbId,
+                    noiDung: `Thông tin mục bồi dưỡng ${id}`
+                }))
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
     }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
@@ -108,7 +106,11 @@ const CultivateList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/cultivatemanagement/update/${record.id}`} id={record.id} />
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete
+                            id={record.id}
+                            onDelete={onDelete}
+                            title='Bồi dưỡng'
+                        />
                     </Space>
                 )
             }

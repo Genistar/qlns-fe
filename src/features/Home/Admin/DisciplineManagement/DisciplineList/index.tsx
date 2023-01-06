@@ -36,24 +36,21 @@ const DisciplineList = (props: Props) => {
     }, [keyword, officer, disciplineDi])
     const onDelete = (id: string) => {
 
-        // let newUser = users.filter((user) => user.can_bo_giang_day.id === id)
+        dispatch(removeDiscipline({ id }))
+        dispatch(deleteDiscipline(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                dispatch(addDaily({
+                    ten_hoat_dong: 'Xóa',
+                    fkMaCanBo: cbId,
+                    noiDung: `Thông tin mục Kỹ luật${id}`
+                }))
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
 
-        if (confirm("Bạn có muốn xóa mục kỹ luật này không ?")) { //eslint-disable-line
-            dispatch(removeDiscipline({ id }))
-            dispatch(deleteDiscipline(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    dispatch(addDaily({
-                        ten_hoat_dong: 'Xóa',
-                        fkMaCanBo: cbId,
-                        noiDung: `Thông tin mục Kỹ luật${id}`
-                    }))
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
     }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
@@ -116,7 +113,7 @@ const DisciplineList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/disciplinemanagement/update/${record.id}`} id={record.id} />
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete title='kỹ luật' id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

@@ -33,24 +33,20 @@ const DomesticList = (props: Props) => {
     }, [keyword])
     const onDelete = (id: string) => {
 
-        // let newUser = users.filter((user) => user.can_bo_giang_day.id === id)
-
-        if (confirm("Bạn có muốn xóa mục công tác trong nước này không ?")) { //eslint-disable-line
-            dispatch(removeBusiness({ id }))
-            dispatch(addDaily({
-                ten_hoat_dong: 'Xóa',
-                fkMaCanBo: cbId,
-                noiDung: `Xóa thông tin công tác trong nước ${id}`
-            }))
-            dispatch(deleteBusiness(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(removeBusiness({ id }))
+        dispatch(addDaily({
+            ten_hoat_dong: 'Xóa',
+            fkMaCanBo: cbId,
+            noiDung: `Xóa thông tin công tác trong nước ${id}`
+        }))
+        dispatch(deleteBusiness(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
     }
     const columns = [
         {
@@ -97,7 +93,7 @@ const DomesticList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/businessmanagement/domestic/update/${record.id}`} id={record.id} />
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete title='Công tác trong nước' id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

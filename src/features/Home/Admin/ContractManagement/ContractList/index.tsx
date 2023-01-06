@@ -1,8 +1,8 @@
 
-import { Button, Form, Input, Row, Select, Space, Table, Typography, message as notice, Badge, Tag } from 'antd'
+import { Button, Form, Input, Row, Select, Space, Table, Typography, message as notice, Badge, Tag, Modal } from 'antd'
 import React, { useEffect, useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { CaretLeftOutlined, CaretRightOutlined, ExclamationCircleFilled, CheckOutlined, SendOutlined } from '@ant-design/icons'
 import styles from '../../PersonalManagement/Style.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../../store/store';
 import { getAll, contractSelector, removeContract, deleteContract, updateDateContract } from '../contractSlice';
@@ -15,7 +15,8 @@ import { directorySelector, getContractType } from '../../../../../slices/direct
 import Update from '../../../../../components/button/Update';
 import Delete from '../../../../../components/button/Delete';
 import { daysdifference } from '../../../../../utils/getDate';
-
+import Warning from '../../../../../components/Icon/Warning';
+var { confirm } = Modal
 type Props = {}
 
 
@@ -35,23 +36,21 @@ const ContractList = (props: Props) => {
         dispatch(getContractType())
     }, [contractDi, officer, keyword])
     const onDelete = (id: string) => {
+        dispatch(removeContract({ id }))
+        dispatch(deleteContract(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                dispatch(addDaily({
+                    ten_hoat_dong: 'Xóa',
+                    fkMaCanBo: cbId,
+                    noiDung: `Thông tin hợp đồng ${id}`
+                }))
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
 
-        if (confirm("Bạn có muốn xóa mục bồi dưỡng này không ?")) { //eslint-disable-line
-            dispatch(removeContract({ id }))
-            dispatch(deleteContract(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    dispatch(addDaily({
-                        ten_hoat_dong: 'Xóa',
-                        fkMaCanBo: cbId,
-                        noiDung: `Thông tin hợp đồng ${id}`
-                    }))
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
     }
     const onUpdateDate = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any) => {
         dispatch(updateDateContract({
@@ -75,6 +74,22 @@ const ContractList = (props: Props) => {
             }
         })
     }
+    const showConfirm = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any) => {
+        confirm({
+            title: `Bạn có chắc chắn muốn gia hạn hợp đồng không?`,
+            icon: <ExclamationCircleFilled />,
+            content: <Warning />,
+            okText: 'Có',
+            okType: 'danger',
+            cancelText: 'Khum',
+            onOk() {
+                onUpdateDate(hdDenNgay, hdTuNgay, id, ngayKy)
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
     ))
@@ -139,24 +154,27 @@ const ContractList = (props: Props) => {
 
         {
             key: 'action',
-            render: (_: any, record: any) => (
+            render: (data: any, record: any) => (
                 <Space size="middle">
+                    <Button
+                        type="text"
+                        icon={<CheckOutlined style={{ color: data?.giaHan === 0 ? 'red' : 'green' }} />}
+                        onClick={() => showConfirm(data?.hdDenNgay, data?.hdTuNgay, data?.id, data?.ngayKy)}
+                        disabled={data?.giaHan === 0 ? true : false}
+                    />
                     <Update link={`/admin/contractmanagement/update/${record.id}`} id={record.id} />
-                    <Delete id={record.id} onDelete={onDelete} />
+                    <Delete
+                        id={record.id}
+                        onDelete={onDelete}
+                        title='Hợp đồng'
+                    />
+                    <Button
+                        type='text'
+                        icon={<SendOutlined />}
+                        disabled={data.status > 30 ? true : false}
+                    />
                 </Space>
             ),
-        },
-        {
-            key: 'action',
-            render: (data: any, record: any) => {
-                return (
-                    <Space size="middle">
-                        {data?.giaHan === 0 ? ''
-                            : <a className="btn btn-lg btn-danger" onClick={() => onUpdateDate(data?.hdDenNgay, data?.hdTuNgay, data?.id, data?.ngayKy)}>Gia Hạn</a>}
-
-                    </Space>
-                )
-            }
         },
     ];
     const headers = [

@@ -204,3 +204,6 @@ input[type="text"][disabled] {
 }
 /*table*/
 /*upload*/
+.ant-modal-confirm .ant-modal-confirm-btns {
+  text-align: center;
+}

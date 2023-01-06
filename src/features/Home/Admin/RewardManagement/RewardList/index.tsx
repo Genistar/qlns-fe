@@ -85,7 +85,7 @@ const RewardList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/rewardmanagement/update/${record.id}`} id={record.id} />
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete title='Khen thưởng' id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }
@@ -93,22 +93,20 @@ const RewardList = (props: Props) => {
     ];
 
     const onDelete = (id: string) => {
-        if (confirm("Bạn có muốn xóa mục khen thưởng này không ?")) { //eslint-disable-line
-            dispatch(removeReward({ id }))
-            dispatch(deleteReward(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    dispatch(addDaily({
-                        ten_hoat_dong: 'Xóa',
-                        fkMaCanBo: cbId,
-                        noiDung: `Thông tin mục khen thưởng ${id}`
-                    }))
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(removeReward({ id }))
+        dispatch(deleteReward(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                dispatch(addDaily({
+                    ten_hoat_dong: 'Xóa',
+                    fkMaCanBo: cbId,
+                    noiDung: `Thông tin mục khen thưởng ${id}`
+                }))
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
     }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>

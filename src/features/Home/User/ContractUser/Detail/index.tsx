@@ -1,4 +1,5 @@
-import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography, message as notice } from 'antd'
+import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography, message as notice, Modal } from 'antd';
+import { ExclamationCircleFilled, QuestionOutlined } from '@ant-design/icons'
 import React, { useEffect, memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../../store/store';
@@ -8,6 +9,9 @@ import { directorySelector, getCivilServant, getContractType, getPosition, getSa
 import moment from 'moment';
 import { contractUserSelector, getAll, updateContractUser } from '../contractUserSlice';
 import ModalPrintContract from '../ContractForm';
+import { daysdifference } from '../../../../../utils/getDate';
+import WarningButton from '../../../../../components/button/Warning';
+var { confirm } = Modal;
 type QuizParams = {
     key: any;
 };
@@ -31,21 +35,36 @@ const ContractDetail = (props: Props) => {
         dispatch(getPosition())
         dispatch(getAll({ cbId: cbId }))
     }, [cbId])
-    const date: any = moment();
+    const date: any = new Date();
+    let giaHan = daysdifference(moment(contractUser?.hdDenNgay).toDate().getTime(), date.getTime());
     const onGiaHan = () => {
-        if (confirm("Bạn có muốn gia hạn hợp đồng này không ?")) { //eslint-disable-line
-            dispatch(updateContractUser({
-                BenB: cbId,
-                giaHan: 1
-            })).then((res) => {
-                if (res.payload.errCode !== 0) {
-                    notice.error(res.payload.errMessage)
-                } else {
-                    notice.success(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(updateContractUser({
+            BenB: cbId,
+            giaHan: 1
+        })).then((res) => {
+            if (res.payload.errCode !== 0) {
+                notice.error(res.payload.errMessage)
+            } else {
+                notice.success(res.payload.errMessage)
+            }
+        })
     }
+    const showConfirm = () => {
+        confirm({
+            title: `Bạn có chắc chắn muốn gia hạn hợp đồng không?`,
+            icon: <ExclamationCircleFilled />,
+            content: <QuestionOutlined />,
+            okText: 'Có',
+            okType: 'danger',
+            cancelText: 'Khum',
+            onOk() {
+                onGiaHan()
+            },
+            onCancel() {
+                console.log('Cancel');
+            },
+        });
+    };
     useEffect(() => {
         if (cbId) {
             form.setFieldsValue({
@@ -99,9 +118,6 @@ const ContractDetail = (props: Props) => {
     }, [contractUser]);
     const onFinish = (value: any) => {
         console.log(value)
-    }
-    const onBack = () => {
-        navigate('../')
     }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
@@ -590,19 +606,17 @@ const ContractDetail = (props: Props) => {
                         </Row>
                     </Col>
                 </Row>
-                <Row className={styles.button} style={{ marginTop: '-40%', marginLeft: '30%' }}>
+                <Row className={styles.button} style={{ marginTop: '-40%', marginLeft: '25%' }}>
                     <Col span={6} style={{ marginRight: '5%' }}>
                         <Typography.Title level={5}>Trạng Thái</Typography.Title>
-                        {moment(contractUser?.hdDenNgay) > date ? 'Còn hạn' : 'Hết hạn'}
+                        {giaHan < 30 && giaHan > 7 ? 'Gần hết hạn' : (giaHan < 7 && giaHan > 0 ? 'Sắp hết hạn' : (giaHan < 0 ? 'Hết hạn' : 'Còn hạn'))}
                     </Col>
 
-                    <Col span={6} style={{ marginRight: '5%' }}>
+                    <Col span={6} style={{ marginRight: '15%' }}>
                         <ModalPrintContract />
                     </Col>
                     <Col span={6}>
-                        <Button className={styles.btn} onClick={onGiaHan} htmlType='submit' disabled={moment(contractUser?.hdDenNgay) > date ? true : false}>
-                            Gia Hạn
-                        </Button>
+                        <WarningButton title='Gia hạn' giaHan={giaHan} showConfirm={showConfirm} />
                     </Col>
                 </Row>
             </Form>

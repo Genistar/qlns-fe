@@ -33,19 +33,15 @@ const DailyList = (props: Props) => {
     }, [keyword, officer, hDDi])
     const onDelete = (id: string) => {
 
-        // let newUser = users.filter((user) => user.can_bo_giang_day.id === id)
-
-        if (confirm("Bạn có muốn xóa hoạt động này không ?")) { //eslint-disable-line
-            dispatch(removeDaily({ id }))
-            dispatch(deleteDaily(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(removeDaily({ id }))
+        dispatch(deleteDaily(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
     }
     const columns = [
         {
@@ -78,7 +74,7 @@ const DailyList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete title='nhật ký' id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

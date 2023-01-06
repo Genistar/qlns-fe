@@ -31,24 +31,20 @@ const ForeignList = (props: Props) => {
     }, [keyword, officer])
     const onDelete = (id: string) => {
 
-        // let newUser = users.filter((user) => user.can_bo_giang_day.id === id)
-
-        if (confirm("Bạn có muốn xóa mục công tác nước ngoài này không ?")) { //eslint-disable-line
-            dispatch(removeForeign({ id }));
-            dispatch(addDaily({
-                ten_hoat_dong: 'Xóa',
-                fkMaCanBo: cbId,
-                noiDung: `Thông tin mục công tác nước ngoài ${id}`
-            }))
-            dispatch(deleteForeign(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(removeForeign({ id }));
+        dispatch(addDaily({
+            ten_hoat_dong: 'Xóa',
+            fkMaCanBo: cbId,
+            noiDung: `Thông tin mục công tác nước ngoài ${id}`
+        }))
+        dispatch(deleteForeign(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
     }
     const columns = [
         {
@@ -115,7 +111,7 @@ const ForeignList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/businessmanagement/foreign/update/${record.id}`} id={record.id} />
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete title='Công tác nước ngoài' id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }

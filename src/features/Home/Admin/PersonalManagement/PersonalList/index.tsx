@@ -47,24 +47,20 @@ const PersonalList = (props: Props) => {
 
     const onDelete = (id: string) => {
 
-        // let newUser = users.filter((user) => user.can_bo_giang_day.id === id)
-
-        if (confirm("Bạn có muốn xóa cán bộ này không ?")) { //eslint-disable-line
-            dispatch(removeUser({ id }))
-            dispatch(deleteUser(id)).then((res: any) => {
-                if (res.payload.errCode === 0) {
-                    dispatch(addDaily({
-                        ten_hoat_dong: 'Xóa',
-                        fkMaCanBo: cbId,
-                        noiDung: `Thông tin cán bộ ${id}`
-                    }))
-                    notice.success(res.payload.errMessage)
-                }
-                else {
-                    notice.error(res.payload.errMessage)
-                }
-            })
-        }
+        dispatch(removeUser({ id }))
+        dispatch(deleteUser(id)).then((res: any) => {
+            if (res.payload.errCode === 0) {
+                dispatch(addDaily({
+                    ten_hoat_dong: 'Xóa',
+                    fkMaCanBo: cbId,
+                    noiDung: `Thông tin cán bộ ${id}`
+                }))
+                notice.success(res.payload.errMessage)
+            }
+            else {
+                notice.error(res.payload.errMessage)
+            }
+        })
     }
     const columns = [
         {
@@ -138,7 +134,7 @@ const PersonalList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <Delete id={record.id} onDelete={onDelete} />
+                        <Delete title='Cán bộ' id={record.id} onDelete={onDelete} />
                     </Space>
                 )
             }
