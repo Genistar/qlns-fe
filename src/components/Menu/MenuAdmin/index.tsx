@@ -28,7 +28,7 @@ function getItem(
 const items: MenuItem[] = [
     getItem(<Link to='/admin/dashboard'>Dashboard</Link>, '/admin/dashboard', <AppstoreOutlined />, styles.antMenu),
 
-    getItem(<Link to='/admin/personalmanagement'>Quản lý nhân sự</Link>, '/admin/devices', <UserOutlined />),
+    getItem(<Link to='/admin/personalmanagement'>Quản lý nhân sự</Link>, '/admin/personalmanagement', <UserOutlined />),
     getItem(<Link to='/admin/trainingmanagement'>Quản lý đào tạo</Link>, '/admin/trainingmanagement', <HighlightOutlined />),
     getItem(<Link to='/admin/rewardmanagement'>Quản lý khen thưởng</Link>, '/admin/rewardmanagement', <SmileOutlined />),
     getItem(<Link to='/admin/disciplinemanagement'>Quản lý kỹ luật</Link>, '/admin/disciplinemanagement', <FrownOutlined />),
@@ -57,6 +57,7 @@ const items: MenuItem[] = [
         />,
         [
             getItem(<Link to='/admin/setting/account'>Quản lý tài khoản</Link>, '/admin/setting/account'),
+            getItem(<Link to='/admin/setting/role'>Quản lý vai trò</Link>, '/admin/setting/role'),
             getItem(<Link to='/admin/setting/daily'>Nhật ký người dùng</Link>, '/admin/setting/daily')
         ]),
 ];

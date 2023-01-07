@@ -20,6 +20,7 @@ import contractReducer from "../features/Home/Admin/ContractManagement/contractS
 import contractUserReducer from "../features/Home/User/ContractUser/contractUserSlice";
 import locationUserReducer from "../slices/locationSlice";
 import familyReducer from "../features/Home/User/FamilyUser/familyUserSlice";
+import roleReducer from "../features/Home/Admin/Setting/RoleManagement/roleSlice";
 
 const store = configureStore({
     reducer: {
@@ -42,7 +43,8 @@ const store = configureStore({
         contractReducer,
         contractUserReducer,
         locationUserReducer,
-        familyReducer
+        familyReducer,
+        roleReducer
     }
 })
 
