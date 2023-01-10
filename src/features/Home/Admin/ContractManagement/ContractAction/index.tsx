@@ -6,6 +6,7 @@ import { getUsers, userSelector } from '../../../../Auth/userSlice';
 import styles from '../../PersonalManagement/Style.module.scss'
 import { directorySelector, getCivilServant, getContractType, getDegreeD, getPosition, getSalaryScale, getSubjectsD } from '../../../../../slices/directorySlice';
 import moment from 'moment';
+import Swal from 'sweetalert2'
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { isNameOff } from '../../TrainingManagement/TrainingList';
 import { addContract, contractSelector, getContract, updateContract } from '../contractSlice';
@@ -111,10 +112,18 @@ const ContractAction = (props: Props) => {
                         noiDung: `Thông tin hợp đồng ${key}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Có lỗi xảy ra`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -135,10 +144,18 @@ const ContractAction = (props: Props) => {
                         noiDung: `Thông tin hợp đồng ${isNameOff(users, value.fkMaCanBo)}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Thêm thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Có lỗi xảy ra`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

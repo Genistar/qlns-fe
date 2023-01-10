@@ -3,7 +3,6 @@ import { Button, Form, Input, Row, Select, Space, Table, Typography, message as 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
-import SelectItem from '../../../../../../components/Select/index'
 // import { useAppDispatch, useAppSelector } from '../../../../store/store';
 // import { getAll, userSelector } from '../../../Auth/Login/userSlice';
 import styles from '../../../PersonalManagement/Style.module.scss'
@@ -31,23 +30,6 @@ const DomesticList = (props: Props) => {
         dispatch(getUsers())
         console.log(businesss)
     }, [keyword])
-    const onDelete = (id: string) => {
-
-        dispatch(removeBusiness({ id }))
-        dispatch(addDaily({
-            ten_hoat_dong: 'Xóa',
-            fkMaCanBo: cbId,
-            noiDung: `Xóa thông tin công tác trong nước ${id}`
-        }))
-        dispatch(deleteBusiness(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-    }
     const columns = [
         {
             title: 'STT',
@@ -93,7 +75,13 @@ const DomesticList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/businessmanagement/domestic/update/${record.id}`} id={record.id} />
-                        <Delete title='Công tác trong nước' id={record.id} onDelete={onDelete} />
+                        <Delete
+                            title='Công tác trong nước'
+                            id={record.id}
+                            removeAction={removeBusiness}
+                            deleteAction={deleteBusiness}
+                            dailyName='Thông tin công tác trong nước'
+                        />
                     </Space>
                 )
             }

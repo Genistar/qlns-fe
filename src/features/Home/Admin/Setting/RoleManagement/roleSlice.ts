@@ -36,18 +36,7 @@ export const getAll = createAsyncThunk('roles/getAll',
                 console.log(err)
             });
             roles = response;
-            if (filter) {
-                if (filter.role != null) {
-                    roles = roles.filter((data: any) => data.role === filter.role)
-                }
-                if (filter.keyword != '') {
-                    const roles = await response.filter((role: any) =>
-                        role?.username.toLowerCase().includes(filter.keyword?.toLowerCase())
-                    )
-                    return roles
-                }
-                return roles
-            }
+            return roles
 
         } catch (error) {
             return thunkAPI.rejectWithValue({ error });
@@ -66,8 +55,7 @@ export const getRole = createAsyncThunk('role/getRole',
             }).then((res: AxiosResponse<any, any>) => { return res.data }).catch((err: any) => {
                 console.log(err)
             });
-            role = await response;
-            console.log(role)
+            role = response;
             return role
         } catch (error) {
             return thunkAPI.rejectWithValue({ error });

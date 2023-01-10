@@ -1,40 +1,38 @@
-import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography, message as notice, Checkbox } from 'antd'
+import { Button, Card, Col, Form, Input, Row, Select, Typography, message as notice, Checkbox } from 'antd'
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
-import { addRole, roleSelector, getRole, updateRole } from '../roleSlice';
-import { getUsers, userSelector } from '../../../../../Auth/userSlice';
+import { addRole, getRole, roleSelector, updateRole } from '../roleSlice';
 import styles from '../../../PersonalManagement/Style.module.scss'
-import { directorySelector } from '../../../../../../slices/directorySlice';
 type QuizParams = {
     key: any;
 };
 type Props = {}
 
 const RoleAction = (props: Props) => {
-    let { key } = useParams<QuizParams>()
+    let { key } = useParams<QuizParams>();
     const dispatch = useAppDispatch();
-    const { users } = useAppSelector(userSelector);
     const { role } = useAppSelector(roleSelector);
     const [form] = Form.useForm();
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     dispatch(getUsers())
-    //     dispatch(getRole(key))
-    // }, [key])
+    useEffect(() => {
+        dispatch(getRole(key))
+    }, [key])
     useEffect(() => {
         if (key) {
             form.setFieldsValue({
-                ...role
+                tenVaiTro: role?.tenVaiTro
             })
         }
     }, [role])
     const onFinish = (value: any) => {
         if (key) {
             dispatch(updateRole({
+                ...value,
                 id: key,
-                ...value
+                chucNang: JSON.stringify(value.authorityA),
+
             })).then((res: any) => {
                 console.log(res)
                 if (res.payload.errCode === 0) {
@@ -48,7 +46,10 @@ const RoleAction = (props: Props) => {
             })
 
         } else {
-            dispatch(addRole(value)).then((res: any) => {
+            dispatch(addRole({
+                ...value,
+                chucNang: JSON.stringify(value.authorityA)
+            })).then((res: any) => {
                 console.log(res)
                 if (res.payload.errCode === 0) {
                     navigate('../');
@@ -60,15 +61,10 @@ const RoleAction = (props: Props) => {
 
             })
         }
-
     }
     const onBack = () => {
         navigate('../')
     }
-    const userOption = users.map((user: any, index) => (
-        <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
-    ))
-
     return (
         <Card className={styles.card_container}>
             <Typography.Title className={styles.card_title} level={3}>
@@ -105,19 +101,82 @@ const RoleAction = (props: Props) => {
                                         <Checkbox >Tất cả</Checkbox>
                                         <Form.Item name='authorityA' style={{ marginTop: 10 }}>
                                             <Checkbox.Group>
-                                                <Checkbox value='cnax'>Quản lý cán bộ</Checkbox>
-                                                <Checkbox value='cnay' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý hợp đồng</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý khen thưởng</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý kỹ luật</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý công tác trong nước</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý công tác nước ngoài</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý đào tạo</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý bồi dưỡng</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý tài khoản</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý vai trò</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý nhật ký</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Gia hạn hợp đồng</Checkbox>
-                                                <Checkbox value='cnbz' style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Thông tin người dùng</Checkbox>
+                                                <Checkbox value={{
+                                                    label: 'Quản lý cán bộ',
+                                                    link: '/admin/personalmanagement',
+                                                    icon: 'UserOutlined'
+                                                }}>Quản lý cán bộ</Checkbox>
+                                                <Checkbox value={
+                                                    {
+                                                        label: 'Quản lý hợp đồng',
+                                                        link: '/admin/contractmanagement',
+                                                        icon: 'HighlightOutlined'
+                                                    }
+                                                } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý hợp đồng</Checkbox>
+                                                <Checkbox value={
+                                                    {
+                                                        label: 'Quản lý khen thưởng',
+                                                        link: '/admin/rewardmanagement',
+                                                        icon: 'SmileOutlined'
+                                                    }
+                                                } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý khen thưởng</Checkbox>
+                                                <Checkbox value={
+                                                    {
+                                                        label: 'Quản lý kỹ luật',
+                                                        link: '/admin/disciplinemanagement',
+                                                        icon: 'FrownOutlined'
+                                                    }
+                                                } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý kỹ luật</Checkbox>
+                                                <Checkbox value={
+                                                    {
+                                                        label: 'Quản lý công tác',
+                                                        icon: 'RocketOutlined',
+                                                        children: [
+                                                            {
+                                                                label: 'Quản lý công tác trong nước',
+                                                                link: '/admin/businessmanagement/domestic'
+                                                            },
+                                                            {
+                                                                label: 'Quản lý công tác nước ngoài',
+                                                                link: '/admin/businessmanagement/foreign'
+                                                            }
+                                                        ]
+                                                    }
+                                                } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý công tác</Checkbox>
+                                                <Checkbox value={
+                                                    {
+                                                        label: 'Quản lý đào tạo',
+                                                        link: '/admin/trainingmanagement',
+                                                        icon: 'HighlightOutlined'
+                                                    }
+                                                } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý đào tạo</Checkbox>
+                                                <Checkbox value={
+                                                    {
+                                                        label: 'Quản lý bồi dưỡng',
+                                                        link: '/admin/cultivatemanagement',
+                                                        icon: 'ReadOutlined'
+                                                    }
+                                                } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý bồi dưỡng</Checkbox>
+                                                <Checkbox value={
+                                                    {
+                                                        label: 'Cài đặt hệt thống',
+                                                        icon: 'SettingOutlined',
+                                                        children: [
+                                                            {
+                                                                label: 'Quản lý tài khoản',
+                                                                link: '/admin/setting/account'
+                                                            },
+                                                            {
+                                                                label: 'Quản lý vai trò',
+                                                                link: '/admin/setting/role'
+                                                            },
+                                                            {
+                                                                label: 'Quản lý nhật ký người dùng',
+                                                                link: '/admin/setting/daily'
+                                                            }
+                                                        ]
+                                                    }
+                                                } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Cài đặt hệ thống</Checkbox>
                                             </Checkbox.Group>
 
                                         </Form.Item>

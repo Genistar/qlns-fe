@@ -7,7 +7,7 @@ type Props = {}
 
 const MenuRoutes = (props: Props) => {
     let location = useLocation()
-    if (location.pathname.slice(1, 6) === 'admin' && localStorage.getItem('role') === 'admin') {
+    if (location.pathname.slice(1, 6) === 'admin' && localStorage.getItem('role') !== '5') {
         return (
             <MenuBar />
         )

@@ -1,6 +1,7 @@
 import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography, message as notice } from 'antd'
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2'
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import { addBusiness, businessSelector, getBusiness, updateBusiness } from '../businessSlice';
 import { getUsers, userSelector } from '../../../../../Auth/userSlice';
@@ -43,10 +44,18 @@ const DomesticAction = (props: Props) => {
                         noiDung: `Cập nhật Thêm thông tin mục công tác trong nước ${key}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Có lỗi xảy ra`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -59,10 +68,18 @@ const DomesticAction = (props: Props) => {
                         noiDung: `Thêm thông tin mục công tác trong nước cho cán bộ ${isNameOff(users, value.fkMaCanBo)}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Thêm thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Có lỗi xảy ra`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

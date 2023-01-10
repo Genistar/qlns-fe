@@ -85,29 +85,18 @@ const RewardList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/rewardmanagement/update/${record.id}`} id={record.id} />
-                        <Delete title='Khen thưởng' id={record.id} onDelete={onDelete} />
+                        <Delete
+                            title='Khen thưởng'
+                            id={record.id}
+                            deleteAction={deleteReward}
+                            removeAction={removeReward}
+                            dailyName='Thông tin khen thưởng'
+                        />
                     </Space>
                 )
             }
         },
     ];
-
-    const onDelete = (id: string) => {
-        dispatch(removeReward({ id }))
-        dispatch(deleteReward(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                dispatch(addDaily({
-                    ten_hoat_dong: 'Xóa',
-                    fkMaCanBo: cbId,
-                    noiDung: `Thông tin mục khen thưởng ${id}`
-                }))
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-    }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
     ))

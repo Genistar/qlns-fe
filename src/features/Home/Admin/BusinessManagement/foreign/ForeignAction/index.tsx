@@ -6,6 +6,7 @@ import { addForeign, foreignSelector, getForeign, updateForeign } from '../forei
 import { getUsers, userSelector } from '../../../../../Auth/userSlice';
 import styles from '../../../PersonalManagement/Style.module.scss';
 import moment from 'moment';
+import Swal from 'sweetalert2';
 import { addDaily } from '../../../Setting/DailyManagement/dailySlice';
 import { isNameOff } from '../../../TrainingManagement/TrainingList';
 
@@ -53,10 +54,18 @@ const ForeignAction = (props: Props) => {
                         noiDung: `Thông tin mục công tác ngoài nước ${key}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -69,10 +78,18 @@ const ForeignAction = (props: Props) => {
                         noiDung: `Thông tin mục công tác ngoài nước cho ${isNameOff(users, value.fkMaCanBo)}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Thêm thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

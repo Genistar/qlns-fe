@@ -33,23 +33,6 @@ const CultivateList = (props: Props) => {
         dispatch(getUsers());
         dispatch(cultivationFormD())
     }, [keyword, officer, cultivateDi])
-    const onDelete = (id: string) => {
-
-        dispatch(removeCultivate({ id }))
-        dispatch(deleteCultivate(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                dispatch(addDaily({
-                    ten_hoat_dong: 'Xóa',
-                    fkMaCanBo: cbId,
-                    noiDung: `Thông tin mục bồi dưỡng ${id}`
-                }))
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-    }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
     ))
@@ -108,8 +91,10 @@ const CultivateList = (props: Props) => {
                         <Update link={`/admin/cultivatemanagement/update/${record.id}`} id={record.id} />
                         <Delete
                             id={record.id}
-                            onDelete={onDelete}
                             title='Bồi dưỡng'
+                            removeAction={removeCultivate}
+                            deleteAction={deleteCultivate}
+                            dailyName='Thông tin bồi dưỡng'
                         />
                     </Space>
                 )

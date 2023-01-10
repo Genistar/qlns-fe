@@ -13,6 +13,7 @@ import { CSVLink } from 'react-csv';
 import { isNameOff } from '../../../TrainingManagement/TrainingList';
 import { roleOption } from '../../../../../../constant/selectOption';
 import Update from '../../../../../../components/button/Update';
+import { Can_bo_giang_day } from '../../../../../../interface';
 
 type Props = {}
 
@@ -164,13 +165,13 @@ const AccountList = (props: Props) => {
                     rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : styles.dark}
                     className={styles.table}
                     dataSource={
-                        accounts.map((account, index) => ({
+                        accounts.map((account: Can_bo_giang_day, index) => ({
                             stt: index + 1,
                             id: account.id,
                             tenCanBo: isNameOff(users, account.cbId),
                             username: account.username,
                             password: account.password,
-                            role: account.role
+                            role: account.Vai_tro.tenVaiTro
                         }))
                     }
                     columns={columns}

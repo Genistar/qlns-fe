@@ -6,8 +6,7 @@ import { accountSelector, getAccount, updateAccount } from '../accountSlice';
 import { getUsers, userSelector } from '../../../../../Auth/userSlice';
 import styles from '../../../PersonalManagement/Style.module.scss'
 import { addDaily } from '../../../Setting/DailyManagement/dailySlice';
-import { isNameOff } from '../../../TrainingManagement/TrainingList';
-import { roleOption } from '../../../../../../constant/selectOption';
+import { getAll, roleSelector } from '../../RoleManagement/roleSlice';
 type QuizParams = {
     key: any;
 };
@@ -17,14 +16,15 @@ const AccountAction = (props: Props) => {
     let { key } = useParams<QuizParams>();
     const dispatch = useAppDispatch();
     const { users } = useAppSelector(userSelector);
+    const { roles } = useAppSelector(roleSelector);
     const { account } = useAppSelector(accountSelector);
     const [form] = Form.useForm();
     const navigate = useNavigate();
     useEffect(() => {
         dispatch(getUsers())
         dispatch(getAccount(key))
+        dispatch(getAll())
     }, [key])
-    console.log(key)
     useEffect(() => {
         if (key) {
             form.setFieldsValue({
@@ -62,6 +62,9 @@ const AccountAction = (props: Props) => {
     }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
+    ))
+    const roleOption = roles.map((role: any, index) => (
+        <Select.Option key={index} value={role.id}>{role.tenVaiTro}</Select.Option>
     ))
     return (
         <Card className={styles.card_container} style={{ width: '45%', height: '40%', margin: '7% 15%' }}>
@@ -108,7 +111,9 @@ const AccountAction = (props: Props) => {
                             style={{ marginBottom: 10 }}
                             name='role'
                         >
-                            <Select placeholder='Nhập vai trò' options={roleOption} className={styles.cardFormInput} style={{ width: 200 }} />
+                            <Select placeholder='Chọn vai trò' className={styles.cardFormInput} style={{ width: 200 }} >
+                                {roleOption}
+                            </Select>
                         </Form.Item>
                     </Col>
                     <Row className={styles.buttonContainer} style={{ marginLeft: '-15%', marginTop: '-5%' }}>

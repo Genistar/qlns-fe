@@ -7,6 +7,7 @@ import styles from '../../PersonalManagement/Style.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../../store/store';
 import { getAll, contractSelector, removeContract, deleteContract, updateDateContract } from '../contractSlice';
 import moment from 'moment';
+import Swal from 'sweetalert2'
 import { getUsers, userSelector } from '../../../../Auth/userSlice';
 import { isNameOff } from '../../TrainingManagement/TrainingList';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
@@ -15,8 +16,6 @@ import { directorySelector, getContractType } from '../../../../../slices/direct
 import Update from '../../../../../components/button/Update';
 import Delete from '../../../../../components/button/Delete';
 import { daysdifference } from '../../../../../utils/getDate';
-import Warning from '../../../../../components/Icon/Warning';
-var { confirm } = Modal
 type Props = {}
 
 
@@ -35,23 +34,6 @@ const ContractList = (props: Props) => {
         dispatch(getUsers());
         dispatch(getContractType())
     }, [contractDi, officer, keyword])
-    const onDelete = (id: string) => {
-        dispatch(removeContract({ id }))
-        dispatch(deleteContract(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                dispatch(addDaily({
-                    ten_hoat_dong: 'Xóa',
-                    fkMaCanBo: cbId,
-                    noiDung: `Thông tin hợp đồng ${id}`
-                }))
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-
-    }
     const onUpdateDate = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any) => {
         dispatch(updateDateContract({
             id: id,
@@ -75,20 +57,18 @@ const ContractList = (props: Props) => {
         })
     }
     const showConfirm = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any) => {
-        confirm({
+        Swal.fire({
             title: `Bạn có chắc chắn muốn gia hạn hợp đồng không?`,
-            icon: <ExclamationCircleFilled />,
-            content: <Warning />,
-            okText: 'Có',
-            okType: 'danger',
-            cancelText: 'Khum',
-            onOk() {
+            text: 'Bạn có muốn xóa mục này hay không?',
+            icon: 'question',
+            showDenyButton: true,
+            denyButtonText: 'Quay lại',
+            confirmButtonText: 'Xác nhận'
+        }).then(response => {
+            if (response.isConfirmed) {
                 onUpdateDate(hdDenNgay, hdTuNgay, id, ngayKy)
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
+            }
+        })
     };
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
@@ -165,8 +145,10 @@ const ContractList = (props: Props) => {
                     <Update link={`/admin/contractmanagement/update/${record.id}`} id={record.id} />
                     <Delete
                         id={record.id}
-                        onDelete={onDelete}
                         title='Hợp đồng'
+                        removeAction={removeContract}
+                        deleteAction={deleteContract}
+                        dailyName='Thông tin hợp đồng'
                     />
                     <Button
                         type='text'

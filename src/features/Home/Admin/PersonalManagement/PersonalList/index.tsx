@@ -45,23 +45,6 @@ const PersonalList = (props: Props) => {
         dispatch(getSubjectsD())
     }, [])
 
-    const onDelete = (id: string) => {
-
-        dispatch(removeUser({ id }))
-        dispatch(deleteUser(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                dispatch(addDaily({
-                    ten_hoat_dong: 'Xóa',
-                    fkMaCanBo: cbId,
-                    noiDung: `Thông tin cán bộ ${id}`
-                }))
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-    }
     const columns = [
         {
             title: 'STT',
@@ -134,7 +117,13 @@ const PersonalList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <Delete title='Cán bộ' id={record.id} onDelete={onDelete} />
+                        <Delete
+                            title='Cán bộ'
+                            id={record.id}
+                            removeAction={removeUser}
+                            deleteAction={deleteUser}
+                            dailyName='Thông tin cán bộ'
+                        />
                     </Space>
                 )
             }

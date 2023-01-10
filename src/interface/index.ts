@@ -4,6 +4,10 @@ export interface Can_bo_giang_day {
     id: number;
     username?: string;
     password?: string;
+    Vai_tro: {
+        id: number,
+        tenVaiTro: string
+    },
     can_bo_giang_day: {
         id: string,
         ho: string,

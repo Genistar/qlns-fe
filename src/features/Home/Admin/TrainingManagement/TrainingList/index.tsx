@@ -60,24 +60,6 @@ const TrainingList = (props: Props) => {
         dispatch(gettypeOfTrainingD())
         dispatch(getTrainingLevel())
     }, [keyword, userValue, type, level])
-
-    const onDelete = (id: string) => {
-
-        dispatch(removeTraining({ id }))
-        dispatch(deleteTraining(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                dispatch(addDaily({
-                    ten_hoat_dong: 'Xóa',
-                    fkMaCanBo: cbId,
-                    noiDung: `Thông tin mục đào tạo ${id}`
-                }))
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-    }
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
     ))
@@ -148,11 +130,17 @@ const TrainingList = (props: Props) => {
         },
         {
             key: 'action',
-            render: (_: any, record: any) => {
+            render: (data: any, record: any) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/trainingmanagement/update/${record.id}`} id={record.id} />
-                        <Delete title='đào tạo' id={record.id} onDelete={onDelete} />
+                        <Delete
+                            title='đào tạo'
+                            id={record.id}
+                            removeAction={removeTraining}
+                            deleteAction={deleteTraining}
+                            dailyName={`Thông tin đào tạo của ${isNameOff(users, data.fkMaCanBo)} tại ${data.noiDaoTao}`}
+                        />
                     </Space>
                 )
             }

@@ -111,7 +111,13 @@ const ForeignList = (props: Props) => {
                 return (
                     <Space size="middle">
                         <Update link={`/admin/businessmanagement/foreign/update/${record.id}`} id={record.id} />
-                        <Delete title='Công tác nước ngoài' id={record.id} onDelete={onDelete} />
+                        <Delete
+                            title='Công tác nước ngoài'
+                            id={record.id}
+                            removeAction={removeForeign}
+                            deleteAction={deleteForeign}
+                            dailyName={`Thông tin công tác nước ngoài`}
+                        />
                     </Space>
                 )
             }

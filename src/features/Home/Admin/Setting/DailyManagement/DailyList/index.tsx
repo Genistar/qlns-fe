@@ -31,18 +31,6 @@ const DailyList = (props: Props) => {
         dispatch(getAll({ keyword, userOption: officer, hd: hDDi }));
         dispatch(getUsers())
     }, [keyword, officer, hDDi])
-    const onDelete = (id: string) => {
-
-        dispatch(removeDaily({ id }))
-        dispatch(deleteDaily(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-    }
     const columns = [
         {
             title: 'STT',
@@ -74,7 +62,13 @@ const DailyList = (props: Props) => {
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
-                        <Delete title='nhật ký' id={record.id} onDelete={onDelete} />
+                        <Delete
+                            title='nhật ký'
+                            id={record.id}
+                            removeAction={removeDaily}
+                            deleteAction={deleteDaily}
+                            dailyName='Thông tin nhật ký'
+                        />
                     </Space>
                 )
             }

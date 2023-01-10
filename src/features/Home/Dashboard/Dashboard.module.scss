@@ -1,0 +1,97 @@
+.container{
+    position: absolute;
+    width: 80%;
+    top: 105px;
+    left: 234px;
+    border-radius: 12px;
+    height: 75%;
+    box-sizing: border-box;
+    .title{
+        position: absolute;
+        top: 0px;
+        left: 14px;
+        font-weight: 700;
+    }
+    .first{
+        position: relative;
+        top: 23%;
+        width: 100%;
+        .first-card{
+            position: relative;
+            height: 150px;
+            margin-right: 30px;
+            border-radius: 12px;
+            box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+                        7px 7px 20px 0px rgba(0,0,0,.1),
+                        4px 4px 5px 0px rgba(0,0,0,.1);
+            .text {
+                font-size: 20px;
+                line-height: 18px;
+                font-weight: 700;
+            }
+            .number {
+                font-size: 40px;
+                line-height: 36px;
+                line-height: 45px;
+                font-weight: 700;
+                margin-bottom: 0;
+                margin-left: 14px;
+            }
+            .icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 48px;
+                width: 48px;
+                font-size: 24px;
+                border-radius: 50%;
+            }
+            .tag {
+                border-radius: 7px;
+                font-size: 8px;
+                font-weight: 400;
+                height: 15px;
+                line-height: 15px;
+                width: 48px;
+                margin-right: 0;
+            }
+        }
+    }
+    .second{
+        position: relative;
+        top: 10%;
+        width: 100%;
+        .pie-chart{
+            position: relative;
+            width: 420px;
+            height: 380px;
+            border-radius: 12px;
+            box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+                        7px 7px 20px 0px rgba(0,0,0,.1),
+                        4px 4px 5px 0px rgba(0,0,0,.1);
+            .text {
+                font-size: 20px;
+                line-height: 18px;
+                font-weight: 700;
+            }
+            div{
+                top:-50px
+            }
+        }
+        .area-chart{
+            position: relative;
+            width: 860px;
+            height: 380px;
+            margin-left: 18%;
+            border-radius: 12px;
+            box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+                        7px 7px 20px 0px rgba(0,0,0,.1),
+                        4px 4px 5px 0px rgba(0,0,0,.1);
+            .text {
+                font-size: 20px;
+                line-height: 18px;
+                font-weight: 700;
+            }
+        }
+    }
+}

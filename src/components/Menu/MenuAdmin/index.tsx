@@ -1,12 +1,14 @@
-import React, { memo } from 'react'
+import React, { memo, useEffect } from 'react'
 import { Button, Image, Menu, MenuProps, Typography } from 'antd';
 import { AppstoreOutlined, RocketOutlined, SettingOutlined, MoreOutlined, FormOutlined, HighlightOutlined, SmileOutlined, FrownOutlined, UserOutlined, ReadOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../store/store';
-import { logoutUser } from '../../../features/Auth/userSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { logoutUser, userSelector } from '../../../features/Auth/userSlice';
 import styles from '../../Style.module.scss'
+import { getAll, getRole, roleSelector } from '../../../features/Home/Admin/Setting/RoleManagement/roleSlice';
 var logoutImage = require('../../../assets/logout.png');
 type Props = {}
+const { SubMenu } = Menu
 type MenuItem = Required<MenuProps>['items'][number];
 function getItem(
     label: React.ReactNode,
@@ -63,18 +65,58 @@ const items: MenuItem[] = [
 ];
 const MenuBar: React.FC = (props: Props) => {
     const navigate = useNavigate();
-    let role = localStorage.getItem('role')
-    const dispatch = useAppDispatch()
 
+    let roleId: any = localStorage.getItem('role')
+    const dispatch = useAppDispatch();
+    const { roles } = useAppSelector(roleSelector)
+    useEffect(() => {
+        dispatch(getAll())
+    }, [])
+
+    let chucNang: any = roles.find((data) => (data.id === parseInt(roleId)))?.chucNang;
+    const menuItem = chucNang ? JSON.parse(chucNang).map((data: any) =>
+        data.children ? (
+            <SubMenu key={data.label} title={data.label} icon={<AppstoreOutlined />}>
+                {data.children.map((child: any) => (
+                    <Menu.Item key={child.link}>
+                        <Link to={child.link}>{child.label}</Link>
+                    </Menu.Item>
+                ))}
+            </SubMenu>
+        ) : (
+            <Menu.Item key={data.link} icon={<AppstoreOutlined />}>
+                <Link to={data.link}>{data.label}</Link>
+            </Menu.Item>
+        )
+    ) : ''
+    // const menuItem = JSON.parse(chucNang).map((item: any) =>
+    //     item.children ? (
+    //         <SubMenu key={item.label} title={item.label}>
+    //             {item.children.map((child: any) => (
+    //                 <Menu.Item key={child.link}>
+    //                     <Link to={child.link}>{child.label}</Link>
+    //                 </Menu.Item>
+    //             ))}
+    //         </SubMenu>
+    //     ) : (
+    //         <Menu.Item key={item.link}>
+    //             <Link to={item.link}>{item.label}</Link>
+    //         </Menu.Item>
+    //     ),
+    // )
     return (
         <>
             <Menu
                 style={{ width: 200, color: '#7E7D88', marginTop: '40%' }}
                 mode="vertical"
-                items={items}
                 color='#00FFFF'
                 className={'ant-menu'}
-            />
+            >
+                <Menu.Item key={'0'} icon={<AppstoreOutlined />}>
+                    <Link to={'/admin'}>Dashboard</Link>
+                </Menu.Item>
+                {menuItem}
+            </Menu>
             <Button
                 style={{
                     textAlign: 'center',

@@ -13,6 +13,7 @@ import { CSVLink } from 'react-csv';
 import { isNameOff } from '../../../TrainingManagement/TrainingList';
 import { roleOption } from '../../../../../../constant/selectOption';
 import Update from '../../../../../../components/button/Update';
+import Delete from '../../../../../../components/button/Delete';
 
 type Props = {}
 
@@ -47,9 +48,16 @@ const RoleList = (props: Props) => {
         },
         {
             key: 'action',
-            render: (_: any, record: any) => (
+            render: (data: any, record: any) => (
                 <Space size="middle">
                     <Update link={`/admin/setting/role/update/${record.id}`} id={record.id} />
+                    <Delete
+                        title='Vai trò'
+                        id={record.id}
+                        removeAction={removeRole}
+                        deleteAction={deleteRole}
+                        dailyName='Thông tin vai trò '
+                    />
                 </Space>
             ),
         }
@@ -146,7 +154,10 @@ const RoleList = (props: Props) => {
                     dataSource={
                         roles.map((role, index) => ({
                             stt: index + 1,
-                            ...role
+                            ...role,
+                            chucNang: role.chucNang ? JSON.parse(role.chucNang).map((item: any) => {
+                                return item.label;
+                            }).join(", ") : ''
                         }))
                     }
                     columns={columns}
