@@ -2,6 +2,7 @@ import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography, me
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { hvptHeOption, hvptLopOption, llctOption, nationOption, qlgdOption, qlnnOption, sexOptions, tdnnOption, tdptOption, tdthOption } from '../../../../../constant/selectOption';
 import { directorySelector, getAcademicRankD, getCivilServant, getDegreeD, getMajorsD, getNationD, getPosition, getReligionD, getSubjectsD, getTypeOfOfficer } from '../../../../../slices/directorySlice';
 import { getAllCities, getAllDistricts, getAllWards, locationUserSelector } from '../../../../../slices/locationSlice';
@@ -115,9 +116,17 @@ const PersonalAction = (props: Props) => {
                         noiDung: `Thêm thông tin cán bộ ${value.ho + ' ' + value.ten}`
                     }))
                     navigate('../')
-                    notice.success(res.payload.errMessage);
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 } else {
-                    notice.error(res.payload.errMessage);
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi !!`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             }
@@ -144,9 +153,17 @@ const PersonalAction = (props: Props) => {
                         noiDung: `Thông tin cán bộ ${value.ho + ' ' + value.ten}`
                     }))
                     navigate('../')
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Thêm thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 } else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
 
             }

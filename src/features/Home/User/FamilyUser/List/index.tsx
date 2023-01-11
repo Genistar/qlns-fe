@@ -2,12 +2,13 @@ import { Form, Input, Row, Space, Table, Typography, message as notice, Col, But
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../../../store/store'
-import { getAll, familySelector } from '../familyUserSlice';
+import { getAll, familySelector, removeFamily, deleteFamily } from '../familyUserSlice';
 import styles from '../family.module.scss'
 import { CSVLink } from 'react-csv';
 import { isNameOff } from '../../../Admin/TrainingManagement/TrainingList';
 import { family } from '../../../../../interface/family';
 import FamilyUserDetail from '../Action';
+import Delete from '../../../../../components/button/Delete';
 
 type Props = {}
 
@@ -61,8 +62,14 @@ const FamilyUserList = (props: Props) => {
             key: 'action',
             render: (data: any, record: any) => (
                 <Space size="middle">
-                    Cập nhật
-                    <FamilyUserDetail key={record.id} id={record.id} data={data} cbId={cbId} label='Cập Nhật' />
+                    <Delete
+                        id={record.id}
+                        title='quan hệ gia đình'
+                        removeAction={removeFamily}
+                        deleteAction={deleteFamily}
+                        dailyName={`mối quan hệ Tên: ${data.hovaten}, Mối quan hệ: ${data.Quan_he.tenQuanHe}`}
+                    />
+                    <FamilyUserDetail key={record.id} id={record.id} data={data} cbId={cbId} />
                 </Space>
             ),
         }
@@ -106,7 +113,7 @@ const FamilyUserList = (props: Props) => {
                         rowClassName={(record: any, index: any) => index % 2 === 0 ? styles.light : styles.blue}
                         dataSource={
                             familys.map((data: family, index) => ({
-                                stt: index,
+                                stt: index + 1,
                                 quanHe: data.Quan_he?.tenQuanHe,
                                 ...data
                             }))
@@ -116,7 +123,7 @@ const FamilyUserList = (props: Props) => {
                         size='small'
                         loading={authLoading}
                         pagination={{
-                            pageSize: 8,
+                            pageSize: 4,
                             position: ['bottomCenter'],
                             showLessItems: true,
                             showSizeChanger: false,

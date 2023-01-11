@@ -8,6 +8,7 @@ import styles from '../../PersonalManagement/Style.module.scss'
 import { directorySelector, getRewardD } from '../../../../../slices/directorySlice';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { isNameOff } from '../../TrainingManagement/TrainingList';
+import Swal from 'sweetalert2';
 
 type QuizParams = {
     key: any;
@@ -48,10 +49,18 @@ const DisciplineAction = (props: Props) => {
                         noiDung: `Mục khen thưởng ${key}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi !!`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -67,10 +76,18 @@ const DisciplineAction = (props: Props) => {
                         console.log(res.payload.errCode)
                     })
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi !!`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

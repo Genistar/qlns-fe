@@ -11,6 +11,7 @@ import { contractUserSelector, getAll, updateContractUser } from '../contractUse
 import ModalPrintContract from '../ContractForm';
 import { daysdifference } from '../../../../../utils/getDate';
 import WarningButton from '../../../../../components/button/Warning';
+import Swal from 'sweetalert2';
 var { confirm } = Modal;
 type QuizParams = {
     key: any;
@@ -43,27 +44,33 @@ const ContractDetail = (props: Props) => {
             giaHan: 1
         })).then((res) => {
             if (res.payload.errCode !== 0) {
-                notice.error(res.payload.errMessage)
+                Swal.fire({
+                    title: `Đã xảy ra lỗi`,
+                    text: res.payload.errMessage,
+                    icon: 'error'
+                })
             } else {
-                notice.success(res.payload.errMessage)
+                Swal.fire({
+                    title: `Gửi yêu cầu cho admin thành công`,
+                    text: res.payload.errMessage,
+                    icon: 'success'
+                })
             }
         })
     }
     const showConfirm = () => {
-        confirm({
-            title: `Bạn có chắc chắn muốn gia hạn hợp đồng không?`,
-            icon: <ExclamationCircleFilled />,
-            content: <QuestionOutlined />,
-            okText: 'Có',
-            okType: 'danger',
-            cancelText: 'Khum',
-            onOk() {
+        Swal.fire({
+            title: `Bạn có chắc muốn gửi yêu cầu gia hạn cho admin không?`,
+            text: 'Gia hạn thêm ....',
+            icon: 'question',
+            showDenyButton: true,
+            denyButtonText: 'Quay lại',
+            confirmButtonText: 'Xác nhận'
+        }).then(response => {
+            if (response.isConfirmed) {
                 onGiaHan()
-            },
-            onCancel() {
-                console.log('Cancel');
-            },
-        });
+            }
+        })
     };
     useEffect(() => {
         if (cbId) {

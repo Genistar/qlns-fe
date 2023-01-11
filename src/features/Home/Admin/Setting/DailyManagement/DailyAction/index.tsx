@@ -59,7 +59,6 @@ const DailyAction = (props: Props) => {
                 }
 
             })
-            console.log(value)
         }
 
     }

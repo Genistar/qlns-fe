@@ -16,6 +16,7 @@ import { CSVLink } from 'react-csv';
 import { directorySelector, getRewardD } from '../../../../../slices/directorySlice';
 import Delete from '../../../../../components/button/Delete';
 import Update from '../../../../../components/button/Update';
+import Detail from '../../../../../components/button/Detail';
 
 type Props = {}
 
@@ -73,17 +74,10 @@ const RewardList = (props: Props) => {
         },
         {
             key: 'action',
-            render: (_: any, record: any) => (
-                <Space size="middle">
-                    <Link to={`/admin/rewardmanagement/${record.id}`} >Chi tiết</Link>
-                </Space>
-            ),
-        },
-        {
-            key: 'action',
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
+                        <Detail link={`/admin/rewardmanagement/${record.id}`} id={record.id} />
                         <Update link={`/admin/rewardmanagement/update/${record.id}`} id={record.id} />
                         <Delete
                             title='Khen thưởng'

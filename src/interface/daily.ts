@@ -2,7 +2,7 @@ export interface daily {
     id: number,
     fkMaCanBo: string,
     ten_hoat_dong: string,
-    createAt?: Date,
+    createdAt?: Date,
     can_bo_giang_day: {
         id: string,
         ho: string,

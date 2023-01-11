@@ -1,4 +1,5 @@
 import { Button, Col, Form, Input, Row, Select, Typography, message as notice } from 'antd';
+import { FileSearchOutlined } from '@ant-design/icons'
 import Modal from 'antd/lib/modal/Modal'
 import React, { useEffect, useState } from 'react';
 import { directorySelector, getDisciplineD } from '../../../../../slices/directorySlice';
@@ -70,9 +71,7 @@ const DisciplineUserDetail = (props: Props) => {
     }
     return (
         <div>
-            <Button type="primary" onClick={() => setIsVisiableModal(true)}>
-                Chi Tiết
-            </Button>
+            <Button type="text" icon={<FileSearchOutlined style={{ marginLeft: -6 }} />} onClick={() => setIsVisiableModal(true)} />
             <Modal
                 title={false}
                 footer={false}

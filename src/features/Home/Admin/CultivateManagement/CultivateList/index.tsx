@@ -14,6 +14,7 @@ import { CSVLink } from 'react-csv';
 import { cultivationFormD, directorySelector } from '../../../../../slices/directorySlice';
 import Delete from '../../../../../components/button/Delete';
 import Update from '../../../../../components/button/Update';
+import Detail from '../../../../../components/button/Detail';
 const { confirm } = Modal;
 type Props = {}
 
@@ -77,17 +78,10 @@ const CultivateList = (props: Props) => {
         },
         {
             key: 'action',
-            render: (_: any, record: any) => (
-                <Space size="middle">
-                    <Link to={`/admin/cultivatemanagement/${record.id}`} >Chi tiết</Link>
-                </Space>
-            ),
-        },
-        {
-            key: 'action',
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
+                        <Detail link={`/admin/cultivatemanagement/${record.id}`} id={record.id} />
                         <Update link={`/admin/cultivatemanagement/update/${record.id}`} id={record.id} />
                         <Delete
                             id={record.id}

@@ -3,7 +3,6 @@ import { Button, Form, Input, Row, Select, Space, Table, Typography, message as 
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
-import SelectItem from '../../../../../components/Select/index'
 import styles from '../../PersonalManagement/Style.module.scss'
 import { useAppDispatch, useAppSelector } from '../../../../../store/store';
 import { deleteTraining, getAll, removeTraining, trainingSelector } from '../trainingSlice';
@@ -14,6 +13,7 @@ import { directorySelector, getTrainingLevel, gettypeOfTrainingD } from '../../.
 import { CSVLink } from 'react-csv';
 import Delete from '../../../../../components/button/Delete';
 import Update from '../../../../../components/button/Update';
+import Detail from '../../../../../components/button/Detail';
 
 type Props = {}
 
@@ -122,17 +122,10 @@ const TrainingList = (props: Props) => {
         },
         {
             key: 'action',
-            render: (_: any, record: any) => (
-                <Space size="middle">
-                    <Link to={`/admin/trainingmanagement/${record.id}`} >Chi tiết</Link>
-                </Space>
-            ),
-        },
-        {
-            key: 'action',
             render: (data: any, record: any) => {
                 return (
                     <Space size="middle">
+                        <Detail link={`/admin/trainingmanagement/${record.id}`} id={record.id} />
                         <Update link={`/admin/trainingmanagement/update/${record.id}`} id={record.id} />
                         <Delete
                             title='đào tạo'

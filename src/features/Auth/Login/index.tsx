@@ -24,7 +24,7 @@ const Login: React.FC<Props> = (props: Props) => {
             dispatch(login({ username, password })).then((res: any) => {
                 if (res.payload.errCode === 0) {
                     notice.success('Đăng nhập thành công', 3);
-                    userLogin.user?.role == 'user' ? navigate('/user') : navigate('/admin');
+                    localStorage.getItem('role') === '5' ? navigate('/user/detail') : navigate('/admin');
                     console.log(localStorage.getItem('role'))
                 } else {
                     notice.error('Sai tài khoản hoặc mật khẩu');

@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import AdminPage from './Admin';
 import Dashboard from './Dashboard/index';
 import UserPage from './User';
+import DetailUser from './User/DetailUser';
 
 type Props = {}
 
@@ -19,7 +20,7 @@ const HomeRoutes = (props: Props) => {
     } else {
         return (
             <Routes>
-                <Route path='/user' element='Home' />
+                <Route path='/user/detail' element={<DetailUser />} />
                 <Route path='/user/*' element={<UserPage />} />
             </Routes>
         )

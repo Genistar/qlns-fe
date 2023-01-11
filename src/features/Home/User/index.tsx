@@ -13,7 +13,7 @@ type Props = {}
 const UserPage = (props: Props) => {
     return (
         <Routes>
-            <Route path='/' element='User' />
+            <Route path='/detail' element={<DetailUser />} />
             <Route path='/detail' element={<DetailUser />} />
             <Route path='/rewarduser/*' element={<RewardUser />} />
             <Route path='/cultivateuser/*' element={<CultivateUser />} />

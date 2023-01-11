@@ -9,6 +9,7 @@ import { directorySelector, cultivationFormD } from '../../../../../slices/direc
 import moment from 'moment';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { isNameOff } from '../../TrainingManagement/TrainingList';
+import Swal from 'sweetalert2';
 type QuizParams = {
     key: any;
 };
@@ -54,10 +55,18 @@ const CultivateAction = (props: Props) => {
                         noiDung: `Thông tin mục bồi dưỡng ${key}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -70,16 +79,22 @@ const CultivateAction = (props: Props) => {
                         noiDung: `Thông tin mục bồi dưỡng cho ${isNameOff(users, value.fkMaCanBo)}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Thêm thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
         }
-
-        console.log(value)
     }
     const onBack = () => {
         navigate('../')

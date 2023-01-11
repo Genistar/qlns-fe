@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import { addRole, getRole, roleSelector, updateRole } from '../roleSlice';
 import styles from '../../../PersonalManagement/Style.module.scss'
+import Swal from 'sweetalert2';
 type QuizParams = {
     key: any;
 };
@@ -37,10 +38,18 @@ const RoleAction = (props: Props) => {
                 console.log(res)
                 if (res.payload.errCode === 0) {
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi !!`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -50,13 +59,20 @@ const RoleAction = (props: Props) => {
                 ...value,
                 chucNang: JSON.stringify(value.authorityA)
             })).then((res: any) => {
-                console.log(res)
                 if (res.payload.errCode === 0) {
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Thêm thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -159,7 +175,7 @@ const RoleAction = (props: Props) => {
                                                 } style={{ display: 'flex', marginLeft: 0, marginTop: 10 }}>Quản lý bồi dưỡng</Checkbox>
                                                 <Checkbox value={
                                                     {
-                                                        label: 'Cài đặt hệt thống',
+                                                        label: 'Cài đặt hệ thống',
                                                         icon: 'SettingOutlined',
                                                         children: [
                                                             {

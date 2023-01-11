@@ -1,4 +1,5 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Typography, message as notice } from 'antd';
+import { EditOutlined } from '@ant-design/icons'
 import Modal from 'antd/lib/modal/Modal'
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -9,12 +10,13 @@ import { addDaily } from '../../../Admin/Setting/DailyManagement/dailySlice';
 import { getTraining, trainingSelector, updateTraining } from '../../../Admin/TrainingManagement/trainingSlice';
 import styles from '../../Modal.module.scss'
 import { addFamily, getAll, updateFamily } from '../familyUserSlice';
+import Swal from 'sweetalert2';
 
 type Props = {
     id?: string,
     data?: any,
     cbId: string | null,
-    label: string;
+    label?: string;
     style?: any
 }
 
@@ -39,7 +41,6 @@ const FamilyUserDetail = (props: Props) => {
     const relationshipOption = relationship.map((data: any, index: number) => (
         <Select.Option key={index} value={data.id}>{data.tenQuanHe}</Select.Option>
     ))
-    console.log(id)
     const onUpdate = (value: any) => {
         if (id) {
             dispatch(updateFamily({
@@ -50,15 +51,25 @@ const FamilyUserDetail = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.cbId,
-                        noiDung: `Cập nhật thông tin mục đào tạo ${value.id}`
-                    }))
-                    notice.success(res.payload.errMessage);
+                        fkMaCanBo: cbId,
+                        noiDung: `Thông tin mối quan hệ: ${data.Quan_he.tenQuanHe}, ${data.hovaten}, ${data.donViCongTacHocTap}, ${data.namSinh}, ${data.queQuan}, ${data.ngheNghiep}`
+                    })).then((res: any) => {
+                        console.log(res.payload)
+                    })
+                    Swal.fire({
+                        title: 'Cập nhật thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     dispatch(getAll({ keyword: '', cbId }))
                     setIsVisiableModal(!isVisiableModal)
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
             })
         } else {
@@ -69,22 +80,30 @@ const FamilyUserDetail = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
-                        fkMaCanBo: value.cbId,
-                        noiDung: `Thêm mối quan hệ ${value.id}`
+                        fkMaCanBo: cbId,
+                        noiDung: `Thêm mối quan hệ Tên: ${value.hovaten}, Mối quan hệ: ${value.fkMaQuanHe}`
                     }))
-                    notice.success(res.payload.errMessage);
+                    Swal.fire({
+                        title: 'Thêm thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     dispatch(getAll({ cbId }))
                     setIsVisiableModal(!isVisiableModal)
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
             })
         }
     }
     return (
         <div>
-            <Button type="primary" size='small' onClick={() => setIsVisiableModal(true)} className={style !== undefined ? style : ''}>
+            <Button type="text" icon={<EditOutlined style={{ marginLeft: -6 }} />} size='large' onClick={() => setIsVisiableModal(true)} className={style !== undefined ? style : ''}>
                 {label}
             </Button>
             <Modal
@@ -101,7 +120,7 @@ const FamilyUserDetail = (props: Props) => {
                     form={form}
                     onFinish={onUpdate}
                 >
-                    <Typography.Title level={3} className={styles.title}>Thêm mối quan hệ gia đình</Typography.Title>
+                    <Typography.Title level={3} className={styles.title}>{id ? 'Cập nhật' : 'Thêm'} mối quan hệ gia đình</Typography.Title>
                     <Row className={styles.warpContainer}>
                         <Col flex={4} style={{ marginRight: 30 }}>
                             <Form.Item label={'Chọn mối quan hệ'} name='fkMaQuanHe'>
@@ -132,10 +151,11 @@ const FamilyUserDetail = (props: Props) => {
                             </Form.Item>
                         </Col>
                         <Row className={styles.btn} style={{ marginTop: 0 }}>
-                            <Col flex={4} style={{ marginRight: 210 }}>
-                                <Button className={styles.btnSort} onClick={() => setdisableButton2(!disableButton2)}>
+                            <Col flex={4} style={{ marginRight: id ? 210 : 110 }}>
+                                {id ? <Button className={styles.btnSort} onClick={() => setdisableButton2(!disableButton2)}>
                                     <Typography.Text className={styles.btnSortText} >Sửa</Typography.Text>
-                                </Button>
+                                </Button> : ''}
+
                             </Col>
                             <Col flex={4} >
                                 <Button htmlType='submit' className={styles.btnUpdate}>

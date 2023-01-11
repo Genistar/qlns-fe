@@ -99,12 +99,13 @@ const DailyList = (props: Props) => {
     const data2 = dailys.map((daily, index) => ({
         stt: index + 1,
         tenCanBo: isNameOff(users, daily?.fkMaCanBo),
-        hoatDong: moment(daily?.createAt).format('HH:mm DD-MM-YYYY'),
+        hoatDong: moment(daily?.createdAt).format('HH:mm DD-MM-YYYY'),
         ...daily
     }))
     const userOption = users.map((user: any, index) => (
         <Select.Option key={index} value={user.id}>{user.ho + ' ' + user.ten}</Select.Option>
     ))
+    console.log(dailys)
     return (
         <Row
             className={styles.container}
@@ -159,7 +160,7 @@ const DailyList = (props: Props) => {
                         dailys.map((daily, index) => ({
                             stt: index + 1,
                             tenCanBo: isNameOff(users, daily?.fkMaCanBo),
-                            hoatDong: moment(daily?.createAt).format('HH:mm DD-MM-YYYY'),
+                            hoatDong: moment(daily?.createdAt).format('HH:mm DD-MM-YYYY'),
                             ...daily
                         }))
                     }

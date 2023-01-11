@@ -9,6 +9,7 @@ import { directorySelector, getMajorsD, getTrainingLevel, gettypeOfTrainingD } f
 import moment from 'moment';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
 import { isNameOff } from '../TrainingList';
+import Swal from 'sweetalert2';
 type QuizParams = {
     key: any;
 };
@@ -58,10 +59,18 @@ const TrainingAction = (props: Props) => {
                         noiDung: `Mục Đào tạo ${key}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
             })
         } else {
@@ -75,14 +84,21 @@ const TrainingAction = (props: Props) => {
                         console.log(res.payload.errCode)
                     })
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Thêm thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
-            console.log(value)
         }
 
     }

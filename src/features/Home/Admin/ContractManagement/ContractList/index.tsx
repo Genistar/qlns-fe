@@ -49,10 +49,18 @@ const ContractList = (props: Props) => {
                     noiDung: `${moment(hdDenNgay).format('DD/MM/YYYY')} -> ${moment(hdDenNgay).add(3, 'years').format('DD/MM/YYYY')}`
                 }));
                 dispatch(getAll({ keyword: '', contractDi: null, userOption: null }))
-                notice.success(res.payload.errMessage)
+                Swal.fire({
+                    title: `Gia hạn thành công`,
+                    icon: 'success',
+                    text: res.payload.errMessage
+                })
             }
             else {
-                notice.error(res.payload.errMessage)
+                Swal.fire({
+                    title: `Dã xảy ra lỗi`,
+                    icon: 'error',
+                    text: res.payload.errMessage
+                })
             }
         })
     }

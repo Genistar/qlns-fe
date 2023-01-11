@@ -15,6 +15,7 @@ import { CSVLink } from 'react-csv';
 import { directorySelector, getDisciplineD } from '../../../../../slices/directorySlice';
 import Delete from '../../../../../components/button/Delete';
 import Update from '../../../../../components/button/Update';
+import Detail from '../../../../../components/button/Detail';
 
 type Props = {}
 
@@ -83,17 +84,10 @@ const DisciplineList = (props: Props) => {
         },
         {
             key: 'action',
-            render: (_: any, record: any) => (
-                <Space size="middle">
-                    <Link to={`/admin/disciplinemanagement/${record.id}`} >Chi tiết</Link>
-                </Space>
-            ),
-        },
-        {
-            key: 'action',
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
+                        <Detail link={`/admin/disciplinemanagement/${record.id}`} id={record.id} />
                         <Update link={`/admin/disciplinemanagement/update/${record.id}`} id={record.id} />
                         <Delete
                             title='kỹ luật'

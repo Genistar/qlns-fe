@@ -1,4 +1,5 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select, Typography, message as notice } from 'antd';
+import { FileSearchOutlined } from '@ant-design/icons'
 import Modal from 'antd/lib/modal/Modal'
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -84,9 +85,7 @@ const TrainingUserDetail = (props: Props) => {
     }
     return (
         <div>
-            <Button type="primary" onClick={() => setIsVisiableModal(true)}>
-                Chi Tiết
-            </Button>
+            <Button type="text" icon={<FileSearchOutlined />} onClick={() => setIsVisiableModal(true)} />
             <Modal
                 title={false}
                 footer={false}

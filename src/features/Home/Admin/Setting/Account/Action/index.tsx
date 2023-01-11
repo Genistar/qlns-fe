@@ -7,6 +7,7 @@ import { getUsers, userSelector } from '../../../../../Auth/userSlice';
 import styles from '../../../PersonalManagement/Style.module.scss'
 import { addDaily } from '../../../Setting/DailyManagement/dailySlice';
 import { getAll, roleSelector } from '../../RoleManagement/roleSlice';
+import Swal from 'sweetalert2';
 type QuizParams = {
     key: any;
 };
@@ -45,10 +46,18 @@ const AccountAction = (props: Props) => {
                         noiDung: `Sửa account ${key}`
                     }))
                     navigate('../');
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Cập nhật thành công`,
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: `Đã xảy ra lỗi`,
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

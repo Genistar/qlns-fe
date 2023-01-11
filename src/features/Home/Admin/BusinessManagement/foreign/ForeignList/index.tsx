@@ -13,6 +13,7 @@ import { addDaily } from '../../../Setting/DailyManagement/dailySlice';
 import { CSVLink } from 'react-csv';
 import Delete from '../../../../../../components/button/Delete';
 import Update from '../../../../../../components/button/Update';
+import Detail from '../../../../../../components/button/Detail';
 
 type Props = {}
 
@@ -99,17 +100,10 @@ const ForeignList = (props: Props) => {
         },
         {
             key: 'action',
-            render: (_: any, record: any) => (
-                <Space size="middle">
-                    <Link to={`/admin/businessmanagement/foreign/${record.id}`} >Chi tiết</Link>
-                </Space>
-            ),
-        },
-        {
-            key: 'action',
             render: (_: any, record: any) => {
                 return (
                     <Space size="middle">
+                        <Detail link={`/admin/businessmanagement/foreign/${record.id}`} id={record.id} />
                         <Update link={`/admin/businessmanagement/foreign/update/${record.id}`} id={record.id} />
                         <Delete
                             title='Công tác nước ngoài'
