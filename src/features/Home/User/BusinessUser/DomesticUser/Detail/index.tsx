@@ -8,6 +8,7 @@ import { businessSelector, getBusiness, updateBusiness } from '../../../../Admin
 import { addDaily } from '../../../../Admin/Setting/DailyManagement/dailySlice';
 import styles from '../../../Modal.module.scss'
 import { getAll } from '../domesticUserSlice';
+import Swal from 'sweetalert2';
 
 type Props = {
     id: string,
@@ -47,15 +48,23 @@ const DomesticUserDetail = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật công tác trong nước',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Cập nhật thông tin mục công tác trong nước ${value.id}`
                     }))
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Cập nhật Thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     dispatch(getAll({ keyword: '', cbId }))
                     setIsVisiableModal(!isVisiableModal)
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

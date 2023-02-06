@@ -30,23 +30,6 @@ const ForeignList = (props: Props) => {
         dispatch(getUsers())
         console.log(foreigns)
     }, [keyword, officer])
-    const onDelete = (id: string) => {
-
-        dispatch(removeForeign({ id }));
-        dispatch(addDaily({
-            ten_hoat_dong: 'Xóa',
-            fkMaCanBo: cbId,
-            noiDung: `Thông tin mục công tác nước ngoài ${id}`
-        }))
-        dispatch(deleteForeign(id)).then((res: any) => {
-            if (res.payload.errCode === 0) {
-                notice.success(res.payload.errMessage)
-            }
-            else {
-                notice.error(res.payload.errMessage)
-            }
-        })
-    }
     const columns = [
         {
             title: 'STT',

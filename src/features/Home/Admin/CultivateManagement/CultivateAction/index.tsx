@@ -51,7 +51,7 @@ const CultivateAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thông tin mục bồi dưỡng ${key}`
                     }))
                     navigate('../');
@@ -75,7 +75,7 @@ const CultivateAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thông tin mục bồi dưỡng cho ${isNameOff(users, value.fkMaCanBo)}`
                     }))
                     navigate('../');

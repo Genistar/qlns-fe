@@ -9,6 +9,7 @@ import { getReward, rewardSelector, updateReward } from '../../../Admin/RewardMa
 import { addDaily } from '../../../Admin/Setting/DailyManagement/dailySlice';
 import styles from '../../Modal.module.scss'
 import { getAll, updateRewardOfUser } from '../rewardUserSlice';
+import Swal from 'sweetalert2';
 
 type Props = {
     id: string,
@@ -56,15 +57,23 @@ const RewardUserDetail = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Cập nhật thông tin mục khen thưởng ${value.id}`
                     }))
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Cập nhật Thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     setIsVisiableModal(!isVisiableModal)
                     dispatch(getAll({ keyword: '', cbId }));
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
             })
         }

@@ -42,7 +42,7 @@ const AccountAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Sửa account ${key}`
                     }))
                     navigate('../');

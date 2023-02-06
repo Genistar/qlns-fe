@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../../../../../store/store';
 import { addRole, getRole, roleSelector, updateRole } from '../roleSlice';
 import styles from '../../../PersonalManagement/Style.module.scss'
 import Swal from 'sweetalert2';
+import { addDaily } from '../../DailyManagement/dailySlice';
 type QuizParams = {
     key: any;
 };
@@ -37,7 +38,11 @@ const RoleAction = (props: Props) => {
             })).then((res: any) => {
                 console.log(res)
                 if (res.payload.errCode === 0) {
-                    navigate('../');
+                    dispatch(addDaily({
+                        ten_hoat_dong: 'Cập nhật',
+                        fkMaCanBo: localStorage.getItem('cbId'),
+                        noiDung: `Vai trò ${value.tenVaiTro}`
+                    }))
                     Swal.fire({
                         title: `Cập nhật thành công`,
                         text: res.payload.errMessage,
@@ -60,6 +65,11 @@ const RoleAction = (props: Props) => {
                 chucNang: JSON.stringify(value.authorityA)
             })).then((res: any) => {
                 if (res.payload.errCode === 0) {
+                    dispatch(addDaily({
+                        ten_hoat_dong: 'Thêm',
+                        fkMaCanBo: localStorage.getItem('cbId'),
+                        noiDung: `Vai trò ${value.tenVaiTro}`
+                    }))
                     navigate('../');
                     Swal.fire({
                         title: `Thêm thành công`,

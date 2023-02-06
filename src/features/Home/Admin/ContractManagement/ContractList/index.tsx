@@ -34,25 +34,25 @@ const ContractList = (props: Props) => {
         dispatch(getUsers());
         dispatch(getContractType())
     }, [contractDi, officer, keyword])
-    const onUpdateDate = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any) => {
+    const onUpdateDate = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any, loaiHopDong: any) => {
         dispatch(updateDateContract({
             id: id,
-            hdDenNgay: moment(hdDenNgay).add(3, 'years').toISOString(),
-            hdTuNgay: moment(hdTuNgay).add(3, 'years').toISOString(),
-            ngayKy: moment(ngayKy).add(3, 'years').toISOString(),
+            hdDenNgay: moment(hdDenNgay).add(loaiHopDong.soThang, 'months').toISOString(),
+            hdTuNgay: moment(hdTuNgay).add(loaiHopDong.soThang, 'months').toISOString(),
+            ngayKy: moment(ngayKy).add(loaiHopDong.soThang, 'months').toISOString(),
             giaHan: 0
         })).then((res: any) => {
             if (res.payload.errCode === 0) {
                 dispatch(addDaily({
                     ten_hoat_dong: 'Duyệt gia hạn hợp đồng ' + id,
                     fkMaCanBo: cbId,
-                    noiDung: `${moment(hdDenNgay).format('DD/MM/YYYY')} -> ${moment(hdDenNgay).add(3, 'years').format('DD/MM/YYYY')}`
+                    noiDung: `${moment(hdDenNgay).format('DD/MM/YYYY')} -> ${moment(hdDenNgay).add(loaiHopDong.soThang, 'months').format('DD/MM/YYYY')}`
                 }));
                 dispatch(getAll({ keyword: '', contractDi: null, userOption: null }))
                 Swal.fire({
                     title: `Gia hạn thành công`,
-                    icon: 'success',
-                    text: res.payload.errMessage
+                    text: `Gia hạn từ ${moment(hdDenNgay).format('DD/MM/YYYY')} -> ${moment(hdDenNgay).add(loaiHopDong.soThang, 'months').format('DD/MM/YYYY')}`,
+                    icon: 'success'
                 })
             }
             else {
@@ -64,7 +64,7 @@ const ContractList = (props: Props) => {
             }
         })
     }
-    const showConfirm = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any) => {
+    const showConfirm = (hdDenNgay: any, hdTuNgay: any, id: any, ngayKy: any, loaiHopDong: any) => {
         Swal.fire({
             title: `Bạn có chắc chắn muốn gia hạn hợp đồng không?`,
             text: 'Bạn có muốn xóa mục này hay không?',
@@ -74,7 +74,7 @@ const ContractList = (props: Props) => {
             confirmButtonText: 'Xác nhận'
         }).then(response => {
             if (response.isConfirmed) {
-                onUpdateDate(hdDenNgay, hdTuNgay, id, ngayKy)
+                onUpdateDate(hdDenNgay, hdTuNgay, id, ngayKy, loaiHopDong)
             }
         })
     };
@@ -147,7 +147,7 @@ const ContractList = (props: Props) => {
                     <Button
                         type="text"
                         icon={<CheckOutlined style={{ color: data?.giaHan === 0 ? 'red' : 'green' }} />}
-                        onClick={() => showConfirm(data?.hdDenNgay, data?.hdTuNgay, data?.id, data?.ngayKy)}
+                        onClick={() => showConfirm(data?.hdDenNgay, data?.hdTuNgay, data?.id, data?.ngayKy, data.Loai_hop_dong)}
                         disabled={data?.giaHan === 0 ? true : false}
                     />
                     <Update link={`/admin/contractmanagement/update/${record.id}`} id={record.id} />

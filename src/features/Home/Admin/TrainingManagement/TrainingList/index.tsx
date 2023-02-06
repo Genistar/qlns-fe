@@ -25,7 +25,6 @@ export const isNameOff = (arr: any, id: any) => {
         }
     }
     return results;
-    // return num > 1;
 }
 export const imageOff = (arr: any, id: any) => {
     let results = ''
@@ -40,7 +39,6 @@ export const imageOff = (arr: any, id: any) => {
         }
     }
     return results;
-    // return num > 1;
 }
 
 

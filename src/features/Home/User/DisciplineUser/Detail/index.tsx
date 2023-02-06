@@ -10,6 +10,7 @@ import { getDiscipline } from '../../../Admin/DisciplineManagement/disciplineSli
 import { addDaily } from '../../../Admin/Setting/DailyManagement/dailySlice';
 import styles from '../../Modal.module.scss'
 import { getAll } from '../disciplineUserSlice';
+import Swal from 'sweetalert2';
 
 type Props = {
     id: string,
@@ -57,12 +58,20 @@ const DisciplineUserDetail = (props: Props) => {
                         fkMaCanBo: value.fkMaCanBo,
                         noiDung: `Cập nhật thông tin mục kỹ luật ${value.id}`
                     }))
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Thêm Thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     dispatch(getAll({ keyword: '', cbId }))
                     setIsVisiableModal(!isVisiableModal)
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

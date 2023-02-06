@@ -49,7 +49,6 @@ const DailyAction = (props: Props) => {
 
         } else {
             dispatch(addDaily(value)).then((res: any) => {
-                console.log(res)
                 if (res.payload.errCode === 0) {
                     navigate('../');
                     notice.success(res.payload.errMessage)

@@ -80,11 +80,11 @@ const FamilyUserDetail = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
-                        fkMaCanBo: cbId,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thêm mối quan hệ Tên: ${value.hovaten}, Mối quan hệ: ${value.fkMaQuanHe}`
                     }))
                     Swal.fire({
-                        title: 'Thêm thành công',
+                        title: 'cập nhật thành công',
                         text: res.payload.errMessage,
                         icon: 'success'
                     })

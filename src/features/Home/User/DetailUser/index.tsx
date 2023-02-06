@@ -12,6 +12,7 @@ import ModalPrintPDF from './Modal';
 import { getBase64 } from '../../../../utils/getBase64';
 import TabUser from './Tabs';
 import { getAllCities, locationUserSelector } from '../../../../slices/locationSlice';
+import Swal from 'sweetalert2';
 
 type Props = {}
 
@@ -78,13 +79,21 @@ const DetailUser: React.FC = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: id,
                         noiDung: `Cập nhật thông tin cán bộ ${isNameOff(users, value.id)}`
                     }))
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Thêm Thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

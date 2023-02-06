@@ -19,12 +19,16 @@ type Props = {}
 
 const ContractAction = (props: Props) => {
     let { key } = useParams<QuizParams>();
-    const [officerId, setOfficerId] = useState()
+    const [officerId, setOfficerId] = useState();
+    const [contractT, setContractT] = useState<number | undefined>(undefined);
+    const [start, setStart] = useState<any>();
+    const [end, setEnd] = useState<any>();
     const dispatch = useAppDispatch();
     const { users } = useAppSelector(userSelector);
     const { contractType, subject, civilServant, salaryScale, position, degreeD } = useAppSelector(directorySelector);
     const { contract } = useAppSelector(contractSelector)
     const [form] = Form.useForm();
+    let cbId = localStorage.getItem('cbId');
     const navigate = useNavigate();
     useEffect(() => {
         dispatch(getUsers())
@@ -88,6 +92,11 @@ const ContractAction = (props: Props) => {
         }
     }, [contract]);
     useEffect(() => {
+        if (start) {
+            form.setFieldValue('hdDenNgay', start.add(contractT, 'months'));
+        }
+    }, [start])
+    useEffect(() => {
         if (officerId && !key) {
             const user = users.find((data: can_bo_giang_day) => data.id === officerId);
             dispatch(getDegreeD());
@@ -108,7 +117,7 @@ const ContractAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thông tin hợp đồng ${key}`
                     }))
                     navigate('../');
@@ -140,7 +149,7 @@ const ContractAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: cbId,
                         noiDung: `Thông tin hợp đồng ${isNameOff(users, value.fkMaCanBo)}`
                     }))
                     navigate('../');
@@ -185,8 +194,7 @@ const ContractAction = (props: Props) => {
     const positionAOption = position.map((l, index) => (
         <Select.Option key={index} value={l.ten_chuc_vu}>{l.ten_chuc_vu}</Select.Option>
     ))
-
-
+    console.log(contractT === 0 ? 'true' : 'false')
     return (
         <Card className={styles.card_container}>
             <Form
@@ -205,7 +213,12 @@ const ContractAction = (props: Props) => {
                                     name='fkMaLoaiHD'
                                     key='fkMaLoaiHD'
                                 >
-                                    <Select placeholder='Chọn loại hợp đồng' className={styles.cardFormInput}>
+                                    <Select placeholder='Chọn loại hợp đồng' className={styles.cardFormInput}
+                                        onChange={(e) => {
+                                            const months: number = Number(contractType.find((data: any) => data.id === e)?.soThang);
+                                            setContractT(months)
+                                        }
+                                        }>
                                         {cultivates}
                                     </Select>
                                 </Form.Item>
@@ -224,16 +237,21 @@ const ContractAction = (props: Props) => {
                                     name='hdTuNgay'
                                     key='hdTuNgay'
                                 >
-                                    <DatePicker placeholder='Chọn ngày' className={styles.cardFormInput} />
+                                    <DatePicker placeholder='Chọn ngày' className={styles.cardFormInput} onChange={(e) => { setStart(e) }} />
                                 </Form.Item>
                                 <Form.Item
-                                    label={<Typography.Title level={5} className={styles.labelcardFormInput}>Hợp đồng đến ngày</Typography.Title>}
+                                    label={<Typography.Title level={5} style={{ display: contractT === 0 ? 'none' : 'block' }} className={styles.labelcardFormInput}>Hợp đồng đến ngày</Typography.Title>}
                                     style={{ marginBottom: 10 }}
                                     name='hdDenNgay'
                                     key='hdDenNgay'
                                 >
-                                    <DatePicker placeholder='Chọn ngày' className={styles.cardFormInput} />
+                                    <DatePicker
+                                        placeholder='Chọn ngày'
+                                        style={{ display: contractT === 0 ? 'none' : 'block' }}
+                                        className={styles.cardFormInput}
+                                    />
                                 </Form.Item>
+
 
                             </Col>
                             <Col span={6}>
@@ -247,7 +265,7 @@ const ContractAction = (props: Props) => {
                                 </Form.Item>
                                 <Form.Item
                                     label={<Typography.Title level={5} className={styles.labelcardFormInput}>Ngày Ký</Typography.Title>}
-                                    style={{ marginBottom: 10 }}
+                                    style={{ marginBottom: 10, marginLeft: contractT === 0 ? -338 : 0 }}
                                     name='ngayKy'
                                 >
                                     <DatePicker placeholder='Chọn ngày ký' className={styles.cardFormInput} />

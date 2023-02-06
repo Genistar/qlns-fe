@@ -10,6 +10,7 @@ import { addDaily } from '../../../Admin/Setting/DailyManagement/dailySlice';
 import { getTraining, trainingSelector, updateTraining } from '../../../Admin/TrainingManagement/trainingSlice';
 import styles from '../../Modal.module.scss'
 import { getAll } from '../trainingUserSlice';
+import Swal from 'sweetalert2';
 
 type Props = {
     id: string,
@@ -73,12 +74,20 @@ const TrainingUserDetail = (props: Props) => {
                         fkMaCanBo: value.fkMaCanBo,
                         noiDung: `Cập nhật thông tin mục đào tạo ${value.id}`
                     }))
-                    notice.success(res.payload.errMessage);
+                    Swal.fire({
+                        title: 'Cập nhật Thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     dispatch(getAll({ keyword: '', cbId }))
                     setIsVisiableModal(!isVisiableModal)
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xay ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
             })
         }

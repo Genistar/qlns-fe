@@ -22,7 +22,6 @@ const DomesticDetail = (props: Props) => {
         dispatch(getBusiness(key));
         dispatch(getUsers())
     }, [key])
-    console.log(business);
     const onBack = () => {
         navigate('../')
     }

@@ -10,6 +10,7 @@ import { getCultivate, cultivateSelector, updateCultivate } from '../../../Admin
 import { addDaily } from '../../../Admin/Setting/DailyManagement/dailySlice';
 import styles from '../../Modal.module.scss'
 import { getAll } from '../cultivateUserSlice';
+import Swal from 'sweetalert2';
 
 type Props = {
     id: string,
@@ -61,15 +62,23 @@ const CultivateUserDetail = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật bồi dưỡng',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Cập nhật thông tin mục bồi dưỡng ${value.id}`
                     }))
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Cập nhật Thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     dispatch(getAll({ keyword: '', cbId }))
                     setIsVisiableModal(!isVisiableModal)
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })
@@ -92,7 +101,7 @@ const CultivateUserDetail = (props: Props) => {
                     form={form}
                     onFinish={onUpdate}
                 >
-                    <Typography.Title level={3} className={styles.title}>Chi tiết khen thưởng</Typography.Title>
+                    <Typography.Title level={3} className={styles.title}>Chi tiết bồi dưỡng</Typography.Title>
                     <Row className={styles.warpContainer}>
                         <Col flex={4} style={{ marginRight: 50 }}>
                             <Form.Item label={'Tên cán bộ'} name='fkMaCanBo'>

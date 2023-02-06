@@ -9,6 +9,7 @@ import { foreignSelector, getForeign, updateForeign } from '../../../../Admin/Bu
 import { addDaily } from '../../../../Admin/Setting/DailyManagement/dailySlice';
 import styles from '../../../Modal.module.scss'
 import { getAll } from '../foreignUserSlice';
+import Swal from 'sweetalert2';
 
 type Props = {
     data: any,
@@ -55,15 +56,23 @@ const ForeignUserDetail = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật công tác ngoài nước',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Cập nhật thông tin mục công tác ngoài nước ${value.id}`
                     }))
-                    notice.success(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Cập nhật Thành công',
+                        text: res.payload.errMessage,
+                        icon: 'success'
+                    })
                     dispatch(getAll({ keyword: '', cbId }))
                     setIsVisiableModal(!isVisiableModal)
                 }
                 else {
-                    notice.error(res.payload.errMessage)
+                    Swal.fire({
+                        title: 'Đã xảy ra lỗi',
+                        text: res.payload.errMessage,
+                        icon: 'error'
+                    })
                 }
 
             })

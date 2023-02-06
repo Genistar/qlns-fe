@@ -55,7 +55,7 @@ const TrainingAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Mục Đào tạo ${key}`
                     }))
                     navigate('../');
@@ -78,7 +78,7 @@ const TrainingAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thông tin đào tạo cho ${isNameOff(users, value.id)}`
                     })).then((res: any) => {
                         console.log(res.payload.errCode)

@@ -45,7 +45,7 @@ const DisciplineAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thông tin mục kỹ luật ${key}`
                     }))
                     navigate('../');
@@ -71,7 +71,7 @@ const DisciplineAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Mục kỹ luật cho cán bộ ${isNameOff(users, value.fkMaCanBo)}`
                     }))
                     navigate('../');

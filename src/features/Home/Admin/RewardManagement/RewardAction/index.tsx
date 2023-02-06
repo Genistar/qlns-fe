@@ -7,7 +7,6 @@ import { getUsers, userSelector } from '../../../../Auth/userSlice';
 import styles from '../../PersonalManagement/Style.module.scss'
 import { directorySelector, getRewardD } from '../../../../../slices/directorySlice';
 import { addDaily } from '../../Setting/DailyManagement/dailySlice';
-import { isNameOff } from '../../TrainingManagement/TrainingList';
 import Swal from 'sweetalert2';
 
 type QuizParams = {
@@ -45,7 +44,7 @@ const DisciplineAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Mục khen thưởng ${key}`
                     }))
                     navigate('../');
@@ -66,12 +65,11 @@ const DisciplineAction = (props: Props) => {
             })
         } else {
             dispatch(addReward(value)).then((res: any) => {
-                console.log(res)
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm',
-                        fkMaCanBo: value.fkMaCanBo,
-                        noiDung: `Thông tin khen thưởng cho ${isNameOff(users, value.id)}`
+                        fkMaCanBo: localStorage.getItem('cbId'),
+                        noiDung: `Thông tin khen thưởng cho ${value.id}`
                     })).then((res: any) => {
                         console.log(res.payload.errCode)
                     })

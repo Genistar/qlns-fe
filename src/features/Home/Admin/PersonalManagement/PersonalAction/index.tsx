@@ -112,7 +112,7 @@ const PersonalAction = (props: Props) => {
                 if (res.payload.errCode === 0) {
                     dispatch(addDaily({
                         ten_hoat_dong: 'Cập nhật',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thêm thông tin cán bộ ${value.ho + ' ' + value.ten}`
                     }))
                     navigate('../')
@@ -149,7 +149,7 @@ const PersonalAction = (props: Props) => {
                     }))
                     dispatch(addDaily({
                         ten_hoat_dong: 'Thêm cán bộ',
-                        fkMaCanBo: value.fkMaCanBo,
+                        fkMaCanBo: localStorage.getItem('cbId'),
                         noiDung: `Thông tin cán bộ ${value.ho + ' ' + value.ten}`
                     }))
                     navigate('../')

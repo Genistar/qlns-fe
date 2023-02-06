@@ -29,7 +29,6 @@ const DomesticList = (props: Props) => {
     useEffect(() => {
         dispatch(getAll({ keyword }));
         dispatch(getUsers())
-        console.log(businesss)
     }, [keyword])
     const columns = [
         {
